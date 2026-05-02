@@ -1,0 +1,664 @@
+================================================================================
+BINDFLOW — MASTER CONTEXT FILE
+Versión: 1.0
+Fecha: 2026
+Uso: Pegar al inicio de cada sesión con Claude
+================================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. IDENTIDAD DEL PRODUCTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Nombre:         BindFlow
+Slogan:         "The CRM built for the way you sell insurance"
+Mercado:        Agentes de seguros independientes en EEUU
+Idioma:         Inglés americano
+Precio:         $39/mes por workspace (hasta 3 usuarios)
+Plan anual:     $397/año (15% descuento = equivale a ~$33/mes)
+Trial:          14 días gratis, sin tarjeta de crédito
+Usuarios/plan:  Hasta 3 seats (usuarios) por workspace
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. SISTEMA DE DISEÑO — DESIGN SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXTRAÍDO DEL LOGO OFICIAL:
+→ Fondo del logo:    #0D1117  (Azul marino muy oscuro, casi negro)
+→ Color primario:    #00E5A0  (Verde menta/turquesa vibrante)
+→ Gradiente logo:    #00E5A0 → #00B4D8 (verde menta a cyan)
+
+PALETA COMPLETA DEL SISTEMA:
+
+PRIMARY COLORS:
+--color-primary:          #00E5A0   (Verde menta — acción principal, CTAs)
+--color-primary-hover:    #00C98A   (Verde menta oscuro — hover states)
+--color-primary-light:    #00E5A015 (Verde menta 8% opacidad — backgrounds)
+--color-primary-dark:     #00A070   (Verde menta profundo — pressed states)
+
+SECONDARY COLORS:
+--color-secondary:        #00B4D8   (Cyan — acción secundaria, links)
+--color-secondary-hover:  #0096B8   (Cyan oscuro — hover)
+--color-secondary-light:  #00B4D815 (Cyan 8% opacidad)
+
+BACKGROUND COLORS (Dark Mode — Principal):
+--color-bg-base:          #0D1117   (Fondo principal — del logo)
+--color-bg-surface:       #161B22   (Cards, panels, sidebar)
+--color-bg-elevated:      #1C2128   (Modales, dropdowns, tooltips)
+--color-bg-overlay:       #21262D   (Hover en items de lista)
+
+BACKGROUND COLORS (Light Mode — Alternativo):
+--color-bg-base-light:    #F6F8FA   (Fondo principal claro)
+--color-bg-surface-light: #FFFFFF   (Cards y panels)
+--color-bg-elevated-light:#F0F2F5   (Elementos elevados)
+
+TEXT COLORS:
+--color-text-primary:     #E6EDF3   (Texto principal — dark mode)
+--color-text-secondary:   #8B949E   (Texto secundario, labels)
+--color-text-muted:       #484F58   (Texto desactivado, placeholders)
+--color-text-inverse:     #0D1117   (Texto sobre fondos primarios)
+
+--color-text-primary-light:   #1C2128  (Texto principal — light mode)
+--color-text-secondary-light: #57606A  (Texto secundario — light mode)
+
+BORDER COLORS:
+--color-border:           #30363D   (Bordes estándar — dark)
+--color-border-muted:     #21262D   (Bordes suaves — dark)
+--color-border-light:     #D0D7DE   (Bordes estándar — light)
+
+STATUS COLORS:
+--color-success:          #00E5A0   (Éxito — mismo que primary)
+--color-warning:          #F0B429   (Advertencia — amarillo cálido)
+--color-error:            #F85149   (Error — rojo suave)
+--color-info:             #00B4D8   (Info — cyan secundario)
+
+PIPELINE STAGE COLORS:
+--stage-lead:             #8B949E   (Lead — gris neutro)
+--stage-quoted:           #00B4D8   (Quoted — cyan)
+--stage-followup:         #F0B429   (Follow-up — amarillo)
+--stage-won:              #00E5A0   (Closed Won — verde primary)
+--stage-active:           #00C98A   (Active Policy — verde oscuro)
+--stage-renewal:          #F85149   (Renewal Due — rojo alerta)
+
+TYPOGRAPHY:
+--font-primary:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif
+--font-mono:        'JetBrains Mono', 'Fira Code', monospace
+
+--text-xs:    0.75rem   / 12px  — Labels, badges
+--text-sm:    0.875rem  / 14px  — Body small, table cells
+--text-base:  1rem      / 16px  — Body principal
+--text-lg:    1.125rem  / 18px  — Subtítulos
+--text-xl:    1.25rem   / 20px  — Títulos de sección
+--text-2xl:   1.5rem    / 24px  — Títulos de página
+--text-3xl:   1.875rem  / 30px  — Títulos principales
+--text-4xl:   2.25rem   / 36px  — Hero headings
+
+--font-normal:    400
+--font-medium:    500
+--font-semibold:  600
+--font-bold:      700
+
+SPACING SYSTEM (base 4px):
+--space-1:   0.25rem  / 4px
+--space-2:   0.5rem   / 8px
+--space-3:   0.75rem  / 12px
+--space-4:   1rem     / 16px
+--space-5:   1.25rem  / 20px
+--space-6:   1.5rem   / 24px
+--space-8:   2rem     / 32px
+--space-10:  2.5rem   / 40px
+--space-12:  3rem     / 48px
+--space-16:  4rem     / 64px
+
+BORDER RADIUS:
+--radius-sm:   0.25rem  / 4px   — Badges, chips
+--radius-md:   0.5rem   / 8px   — Botones, inputs
+--radius-lg:   0.75rem  / 12px  — Cards
+--radius-xl:   1rem     / 16px  — Panels grandes
+--radius-full: 9999px           — Pills, avatares
+
+SHADOWS (Dark Mode):
+--shadow-sm:  0 1px 2px rgba(0,0,0,0.4)
+--shadow-md:  0 4px 6px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3)
+--shadow-lg:  0 10px 15px rgba(0,0,0,0.4), 0 4px 6px rgba(0,0,0,0.3)
+--shadow-glow: 0 0 20px rgba(0,229,160,0.15)  — Glow verde en elementos activos
+
+COMPONENT STYLES:
+
+Botón Primary:
+  background: #00E5A0
+  color: #0D1117
+  border-radius: 8px
+  font-weight: 600
+  padding: 10px 20px
+  hover: background #00C98A, transform translateY(-1px)
+  active: transform translateY(0)
+
+Botón Secondary:
+  background: transparent
+  border: 1px solid #30363D
+  color: #E6EDF3
+  hover: border-color #00E5A0, color #00E5A0
+
+Botón Danger:
+  background: #F85149
+  color: white
+
+Input / Select:
+  background: #161B22
+  border: 1px solid #30363D
+  border-radius: 8px
+  color: #E6EDF3
+  focus: border-color #00E5A0, box-shadow 0 0 0 3px rgba(0,229,160,0.1)
+  placeholder: #484F58
+
+Card:
+  background: #161B22
+  border: 1px solid #30363D
+  border-radius: 12px
+  padding: 24px
+  hover: border-color #00E5A040
+
+Sidebar:
+  background: #161B22
+  border-right: 1px solid #30363D
+  width: 240px
+  item-hover: background #21262D
+  item-active: background #00E5A015, color #00E5A0, border-left 3px solid #00E5A0
+
+Badge / Pill:
+  border-radius: 9999px
+  padding: 2px 10px
+  font-size: 12px
+  font-weight: 500
+
+Kanban Card:
+  background: #1C2128
+  border: 1px solid #30363D
+  border-radius: 8px
+  border-left: 3px solid [stage-color]
+  hover: border-color #00E5A040, shadow-md
+  drag: shadow-lg, transform rotate(2deg)
+
+Kanban Column Header:
+  background: #161B22
+  border-bottom: 2px solid [stage-color]
+  color: [stage-color]
+  font-weight: 600
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. STACK TÉCNICO COMPLETO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CONSTRUCTOR:      Replit Agent (vibecoding principal)
+FRONTEND:         Next.js 14 (App Router) + TypeScript
+ESTILOS:          Tailwind CSS + shadcn/ui
+COMPONENTES:      shadcn/ui (theme personalizado con colores BindFlow)
+BACKEND/DB:       Supabase
+  URL:            https://dbbsguyipjplxexnaetz.supabase.co
+  Auth:           Supabase Auth (email+password + Google OAuth)
+  Storage:        Supabase Storage (avatares, documentos)
+REPOSITORIO:      GitHub
+  URL:            https://github.com/BindFlow-CRM/BindFlow-Connect
+  Rama principal: main
+  Rama dev:       develop
+  Features:       feature/[nombre-feature]
+HOSTING:          Cloudflare Pages
+EMAILS:           Resend (dominio: @bindflowcrm.com)
+PAGOS:            Paddle (Merchant of Record principal)
+KANBAN:           @hello-pangea/dnd
+GRÁFICAS:         Recharts
+ICONOS:           Lucide React
+FECHAS:           date-fns
+FORMULARIOS:      React Hook Form + Zod
+HTTP CLIENT:      Axios o fetch nativo
+LOGO: https://mprcqzsffqdvowogaedf.supabase.co/storage/v1/object/sign/assets/logocuadrado-jpg512.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hMjI2YmI4ZS0yNzJjLTRkNjktYmZkNy0zOTc3OTU5Yjk2NTEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvbG9nb2N1YWRyYWRvLWpwZzUxMi5qcGVnIiwiaWF0IjoxNzc3NzIyMjExLCJleHAiOjMzMzEzNzIyMjExfQ.LS3aj-1COT7OQ0l7m4NEGc-PFwFQx8-2WyxYACa0Yk8
+
+VARIABLES DE ENTORNO NECESARIAS:
+NEXT_PUBLIC_SUPABASE_URL=https://fsmzsskfsonlrwfcvkji.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzbXpzc2tmc29ubHJ3ZmN2a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NDI1NzAsImV4cCI6MjA5MzMxODU3MH0.ciIzznZYV54Z0sy10yFjFaG4Ejd-C2BQrLiPS3WXjvU
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzbXpzc2tmc29ubHJ3ZmN2a2ppIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Nzc0MjU3MCwiZXhwIjoyMDkzMzE4NTcwfQ.tWlzUGf_XCZ0l2fbJEJq6sh-qgcH0YQpdve_CrYBNAc
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+RESEND_API_KEY=re_wgkxsuvv_3GFjmGmKQqP4jWsasrH9KhqF
+PADDLE_API_KEY=pdl_live_apikey_01kqgdbd8bjwbspxwsp1aq0fm1_zQmpRsSfSJvZ81xyStZZ1K_A9n
+PADDLE_WEBHOOK_SECRET=
+NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=live_abf1f1cc1d078df8a7b59c16dfd
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. ARQUITECTURA DE BASE DE DATOS — SUPABASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SCHEMA COMPLETO:
+
+-- ORGANIZATIONS (workspaces/agencias)
+CREATE TABLE organizations (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  owner_id UUID REFERENCES auth.users(id),
+  plan TEXT DEFAULT 'trial',
+  trial_ends_at TIMESTAMPTZ DEFAULT NOW() + INTERVAL '14 days',
+  subscription_id TEXT,
+  subscription_status TEXT DEFAULT 'trialing',
+  max_seats INT DEFAULT 3,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ORGANIZATION MEMBERS
+CREATE TABLE organization_members (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  role TEXT DEFAULT 'member', -- 'owner', 'admin', 'member'
+  invited_email TEXT,
+  status TEXT DEFAULT 'active', -- 'active', 'invited', 'suspended'
+  joined_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(organization_id, user_id)
+);
+
+-- PROFILES (extensión de auth.users)
+CREATE TABLE profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  full_name TEXT,
+  avatar_url TEXT,
+  phone TEXT,
+  state TEXT, -- estado de EEUU
+  license_number TEXT, -- número de licencia de agente
+  agency_name TEXT,
+  current_organization_id UUID REFERENCES organizations(id),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- PIPELINE STAGES
+CREATE TABLE pipeline_stages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  color TEXT NOT NULL,
+  position INT NOT NULL,
+  is_default BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- CONTACTS (clientes del agente)
+CREATE TABLE contacts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  created_by UUID REFERENCES auth.users(id),
+  assigned_to UUID REFERENCES auth.users(id),
+
+  -- Datos personales
+  full_name TEXT NOT NULL,
+  email TEXT,
+  phone TEXT,
+  date_of_birth DATE,
+  address TEXT,
+  city TEXT,
+  state TEXT,
+  zip_code TEXT,
+
+  -- Origen y clasificación
+  lead_source TEXT, -- 'referral','web','cold_call','social','angi','google','other'
+  status TEXT DEFAULT 'active', -- 'active','inactive','prospect'
+
+  -- Metadata
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- POLICIES (pólizas por contacto)
+CREATE TABLE policies (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  contact_id UUID REFERENCES contacts(id) ON DELETE CASCADE,
+  pipeline_stage_id UUID REFERENCES pipeline_stages(id),
+
+  -- Datos de póliza
+  policy_number TEXT,
+  insurance_company TEXT,
+  line_of_insurance TEXT, -- 'auto','home','life','health','commercial','medicare','other'
+  annual_premium DECIMAL(10,2),
+  start_date DATE,
+  renewal_date DATE,
+  policy_status TEXT DEFAULT 'active', -- 'active','lapsed','cancelled','pending','quoted'
+
+  -- Cross-sell
+  current_products TEXT[], -- array de productos actuales
+  cross_sell_opportunities TEXT[], -- array de oportunidades
+
+  -- Metadata
+  notes TEXT,
+  created_by UUID REFERENCES auth.users(id),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- DEALS (cards en el pipeline)
+CREATE TABLE deals (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  contact_id UUID REFERENCES contacts(id) ON DELETE CASCADE,
+  policy_id UUID REFERENCES policies(id),
+  stage_id UUID REFERENCES pipeline_stages(id),
+  assigned_to UUID REFERENCES auth.users(id),
+
+  title TEXT NOT NULL,
+  value DECIMAL(10,2),
+  expected_close_date DATE,
+  position INT DEFAULT 0,
+  notes TEXT,
+
+  created_by UUID REFERENCES auth.users(id),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ACTIVITIES (timeline de actividades)
+CREATE TABLE activities (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  contact_id UUID REFERENCES contacts(id) ON DELETE CASCADE,
+  deal_id UUID REFERENCES deals(id),
+  created_by UUID REFERENCES auth.users(id),
+
+  type TEXT NOT NULL, -- 'note','call','email','meeting','whatsapp','stage_change','reminder_sent'
+  title TEXT,
+  content TEXT,
+  metadata JSONB,
+
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- REMINDERS (recordatorios)
+CREATE TABLE reminders (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  contact_id UUID REFERENCES contacts(id),
+  deal_id UUID REFERENCES deals(id),
+  policy_id UUID REFERENCES policies(id),
+  assigned_to UUID REFERENCES auth.users(id),
+
+  title TEXT NOT NULL,
+  notes TEXT,
+  due_date TIMESTAMPTZ NOT NULL,
+  reminder_type TEXT DEFAULT 'manual', -- 'manual','renewal_90','renewal_60','renewal_30'
+  status TEXT DEFAULT 'pending', -- 'pending','completed','dismissed'
+  is_sent BOOLEAN DEFAULT false,
+
+  created_by UUID REFERENCES auth.users(id),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- TAGS
+CREATE TABLE tags (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  color TEXT DEFAULT '#00E5A0',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(organization_id, name)
+);
+
+-- CONTACT TAGS (relación many-to-many)
+CREATE TABLE contact_tags (
+  contact_id UUID REFERENCES contacts(id) ON DELETE CASCADE,
+  tag_id UUID REFERENCES tags(id) ON DELETE CASCADE,
+  PRIMARY KEY (contact_id, tag_id)
+);
+
+-- REFERRALS (tracker de referidos)
+CREATE TABLE referrals (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  referrer_contact_id UUID REFERENCES contacts(id),
+  referred_contact_id UUID REFERENCES contacts(id),
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- EMAIL TEMPLATES
+CREATE TABLE email_templates (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  subject TEXT NOT NULL,
+  body TEXT NOT NULL,
+  template_type TEXT, -- 'renewal_90','renewal_60','renewal_30','follow_up','custom'
+  is_default BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+DEFAULT PIPELINE STAGES (insertar al crear org):
+1. Lead          | color: #8B949E | position: 1
+2. Quoted        | color: #00B4D8 | position: 2
+3. Follow-up     | color: #F0B429 | position: 3
+4. Closed Won    | color: #00E5A0 | position: 4
+5. Active Policy | color: #00C98A | position: 5
+6. Renewal Due   | color: #F85149 | position: 6
+
+RLS POLICIES (Row Level Security):
+→ Todos los usuarios solo ven datos de su organization_id
+→ El owner puede invitar/remover miembros
+→ Todos los members pueden crear/editar contacts, deals, activities
+→ Solo owner/admin pueden eliminar contactos
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. ESTRUCTURA DE ARCHIVOS DEL PROYECTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+bindflow/
+├── app/
+│   ├── (auth)/
+│   │   ├── login/page.tsx
+│   │   ├── register/page.tsx
+│   │   └── forgot-password/page.tsx
+│   ├── (dashboard)/
+│   │   ├── layout.tsx              ← Sidebar + Header
+│   │   ├── dashboard/page.tsx      ← Home con métricas
+│   │   ├── pipeline/page.tsx       ← Kanban principal
+│   │   ├── contacts/
+│   │   │   ├── page.tsx            ← Lista de contactos
+│   │   │   └── [id]/page.tsx       ← Ficha de contacto
+│   │   ├── calendar/page.tsx       ← Vista calendario
+│   │   ├── reminders/page.tsx      ← Recordatorios
+│   │   ├── referrals/page.tsx      ← Tracker de referidos
+│   │   ├── templates/page.tsx      ← Email templates
+│   │   └── settings/
+│   │       ├── page.tsx            ← Settings generales
+│   │       ├── team/page.tsx       ← Gestión de equipo (3 seats)
+│   │       └── billing/page.tsx    ← Suscripción Paddle
+│   ├── api/
+│   │   ├── webhooks/
+│   │   │   └── paddle/route.ts     ← Webhook Paddle
+│   │   ├── reminders/
+│   │   │   └── send/route.ts       ← Cron job alertas renovación
+│   │   └── export/
+│   │       └── csv/route.ts        ← Exportación CSV
+│   ├── layout.tsx
+│   └── page.tsx                    ← Landing page
+├── components/
+│   ├── ui/                         ← shadcn/ui components
+│   ├── pipeline/
+│   │   ├── KanbanBoard.tsx
+│   │   ├── KanbanColumn.tsx
+│   │   └── KanbanCard.tsx
+│   ├── contacts/
+│   │   ├── ContactCard.tsx
+│   │   ├── ContactForm.tsx
+│   │   └── ContactTimeline.tsx
+│   ├── dashboard/
+│   │   ├── MetricCard.tsx
+│   │   ├── RenewalAlert.tsx
+│   │   └── RecentActivity.tsx
+│   ├── shared/
+│   │   ├── Sidebar.tsx
+│   │   ├── Header.tsx
+│   │   ├── WhatsAppButton.tsx
+│   │   └── CSVExport.tsx
+│   └── providers/
+│       └── SupabaseProvider.tsx
+├── lib/
+│   ├── supabase/
+│   │   ├── client.ts               ← Supabase browser client
+│   │   ├── server.ts               ← Supabase server client
+│   │   └── middleware.ts
+│   ├── paddle/
+│   │   └── client.ts
+│   ├── resend/
+│   │   └── client.ts
+│   └── utils.ts
+├── hooks/
+│   ├── useContacts.ts
+│   ├── useDeals.ts
+│   ├── usePipeline.ts
+│   └── useOrganization.ts
+├── types/
+│   └── database.types.ts           ← Tipos generados de Supabase
+├── styles/
+│   └── globals.css                 ← Variables CSS + Tailwind
+├── middleware.ts                   ← Auth protection
+├── tailwind.config.ts              ← Config con colores BindFlow
+├── next.config.js
+└── package.json
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. FUNCIONALIDADES COMPLETAS (15)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+F1.  Pipeline visual Kanban con drag & drop entre 6 etapas
+F2.  Ficha de cliente/póliza con todos los campos definidos
+F3.  Botón WhatsApp directo via wa.me en cada contacto y card
+F4.  Alertas automáticas de renovación 90/60/30 días por email
+F5.  Dashboard con métricas: renewals, quotes, conversion rate
+F6.  Notas y timeline de actividad cronológico por contacto
+F7.  Recordatorios manuales con fecha, hora y descripción
+F8.  Filtros por línea de seguro, etapa, fuente, aseguradora
+F9.  Etiquetas/tags personalizables con colores
+F10. Registro de fuente del lead (referral, web, cold call, etc.)
+F11. Sección cross-sell: productos actuales y oportunidades
+F12. Exportación de datos a CSV (contactos + pólizas)
+F13. Templates de email personalizables para seguimiento
+F14. Vista de calendario con renovaciones y follow-ups
+F15. Tracker de referidos con árbol visual (quién refirió a quién)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. PRICING Y SUSCRIPCIÓN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PLAN PREMIUM (único plan):
+→ Precio mensual:  $39 USD/mes
+→ Precio anual:    $397 USD/año (15% descuento, ~$33/mes)
+→ Seats incluidos: 3 usuarios por workspace
+→ Trial:           14 días gratis, sin tarjeta de crédito
+→ Procesador:      Paddle (Merchant of Record)
+→ Al expirar trial: acceso bloqueado, datos conservados 30 días
+
+LÓGICA DE TRIAL:
+→ Registro → trial_ends_at = NOW() + 14 days
+→ Durante trial: acceso completo sin restricción
+→ Día 10: email recordatorio "4 días para que expire tu trial"
+→ Día 13: email urgencia "Mañana expira tu trial"
+→ Día 14: bloqueo de acceso → redirect a /billing
+→ Datos conservados 30 días post-expiración
+→ Cancelación: datos conservados hasta fin del período pagado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. SISTEMA DE EMAILS (RESEND)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EMAILS TRANSACCIONALES (sistema → agente):
+E1. Bienvenida al trial (día 0)
+E2. Onboarding día 3: "Add your first client"
+E3. Onboarding día 7: "You have renewals coming up"
+E4. Trial expira en 4 días (día 10)
+E5. Trial expira mañana (día 13)
+E6. Alerta renovación 90 días: "Client X renews in 90 days"
+E7. Alerta renovación 60 días: "Client X renews in 60 days"
+E8. Alerta renovación 30 días: "URGENT: Client X renews in 30 days"
+E9. Confirmación de pago
+E10. Factura mensual
+
+EMAILS DE SEGUIMIENTO (agente → cliente final):
+→ Templates personalizables que el agente envía desde la app
+→ Requieren configurar dominio propio del agente (opcional)
+→ O enviar desde info@bindflowcrm.com en nombre del agente
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. MÉTRICAS DEL DASHBOARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILA 1 — KPI CARDS:
+→ Renewals This Month (número + badge urgencia)
+→ Renewals Next 30 Days (número + valor $ total)
+→ Open Quotes (número + valor $ total en pipeline)
+→ Conversion Rate (% deals cerrados vs totales)
+
+FILA 2 — ALERTAS:
+→ Lista de renovaciones próximas (próximos 30 días)
+  ordenadas por urgencia (más próximas primero)
+  con botón WhatsApp directo en cada fila
+
+FILA 3 — GRÁFICAS:
+→ Renewals por mes: bar chart últimos 6 meses (Recharts)
+→ Pipeline por etapa: donut chart con valores (Recharts)
+→ Lead Source breakdown: donut chart (Recharts)
+
+FILA 4 — ACTIVIDAD RECIENTE:
+→ Timeline de últimas 10 acciones en el sistema
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. AUTENTICACIÓN Y ONBOARDING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOGIN: Email + Password + Google OAuth
+REGISTRO:
+  Paso 1: Email + Password + Full Name
+  Paso 2: Agency Name + State + License Number (opcional)
+  Paso 3: Se crea organization automáticamente
+  Paso 4: Onboarding wizard (3 pasos con empty state)
+  Paso 5: Dashboard principal
+
+EMPTY STATE: Datos de ejemplo precargados
+  → 3 contactos de ejemplo con pólizas
+  → Cards en el pipeline en distintas etapas
+  → 1 renovación próxima de ejemplo
+  → Banner: "This is sample data. Add your first real client →"
+
+PROTECCIÓN DE RUTAS (middleware.ts):
+  → /dashboard/* → requiere auth + org activa
+  → /billing → requiere auth
+  → /login, /register → redirige a dashboard si autenticado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. GESTIÓN DE EQUIPO (3 SEATS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+→ El owner puede invitar hasta 2 miembros adicionales (total 3)
+→ Invitación por email (Resend)
+→ Roles: Owner / Admin / Member
+→ Owner: acceso total + billing + eliminar org
+→ Admin: acceso total excepto billing
+→ Member: crear/editar contactos y deals, no eliminar
+→ Al superar 3 seats: mensaje "Upgrade needed" (futuro)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. DEPLOY — CLOUDFLARE PAGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+→ Conectar repo GitHub a Cloudflare Pages
+→ Build command: npm run build
+→ Build output: .next
+→ Framework: Next.js
+→ Adapter: @cloudflare/next-on-pages
+→ Node version: 18.x
+→ Variables de entorno: configurar en Cloudflare dashboard
+→ Dominio: bindflowcrm.com → Cloudflare Pages
+→ Landing: bindflowcrm.com → misma app (página /)
+
+================================================================================
+FIN DEL CONTEXTO MAESTRO — BINDFLOW v1.0
+================================================================================

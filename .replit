@@ -18,3 +18,27 @@ expertMode = true
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
+
+[[ports]]
+localPort = 8081
+externalPort = 80
+
+[[ports]]
+localPort = 23796
+externalPort = 3000
+
+[userenv]
+
+[userenv.shared]
+VITE_SUPABASE_URL = "https://fsmzsskfsonlrwfcvkji.supabase.co"
+VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzbXpzc2tmc29ubHJ3ZmN2a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NDI1NzAsImV4cCI6MjA5MzMxODU3MH0.ciIzznZYV54Z0sy10yFjFaG4Ejd-C2BQrLiPS3WXjvU"
+VITE_PADDLE_CLIENT_TOKEN = "live_abf1f1cc1d078df8a7b59c16dfd"
+VITE_APP_URL = "http://localhost:3000"
+SUPABASE_SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzbXpzc2tmc29ubHJ3ZmN2a2ppIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Nzc0MjU3MCwiZXhwIjoyMDkzMzE4NTcwfQ.tWlzUGf_XCZ0l2fbJEJq6sh-qgcH0YQpdve_CrYBNAc"
+PADDLE_WEBHOOK_SECRET = "homeflowcrm/api/webhooks/paddle"
+PADDLE_API_KEY = "pdl_live_apikey_01kqgdbd8bjwbspxwsp1aq0fm1_zQmpRsSfSJvZ81xyStZZ1K_A9n"
+RESEND_API_KEY = "re_wgkxsuvv_3GFjmGmKQqP4jWsasrH9KhqF"
