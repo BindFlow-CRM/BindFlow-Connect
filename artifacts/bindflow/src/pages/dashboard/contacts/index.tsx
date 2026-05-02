@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Search, MessageCircle, ChevronRight, User, Filter } from "lucide-react";
+import { Plus, Search, MessageCircle, ChevronRight, User, Filter, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +16,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { format, parseISO } from "date-fns";
+import { toCsv, downloadCsv, CONTACT_EXPORT_COLUMNS } from "@/lib/export";
 
 const US_STATES = ["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
 
@@ -43,6 +44,22 @@ export default function ContactsPage() {
   const [search, setSearch] = useState("");
   const [sourceFilter, setSourceFilter] = useState("all");
   const [addOpen, setAddOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
+  const handleExport = async () => {
+    if (!contacts || contacts.length === 0) {
+      toast({ title: "Nothing to export", description: "Add some contacts first." });
+      return;
+    }
+    setExporting(true);
+    try {
+      const csv = toCsv(contacts, CONTACT_EXPORT_COLUMNS);
+      downloadCsv(csv, `bindflow-contacts-${new Date().toISOString().slice(0, 10)}.csv`);
+      toast({ title: `Exported ${contacts.length} contacts` });
+    } finally {
+      setExporting(false);
+    }
+  };
 
   const form = useForm<ContactForm>({
     resolver: zodResolver(contactSchema),
@@ -97,10 +114,24 @@ export default function ContactsPage() {
           <h1 className="text-2xl font-bold text-[#E6EDF3]">Contacts</h1>
           <p className="text-[#8B949E] text-sm mt-1">{contacts?.length || 0} total clients</p>
         </div>
-        <Button onClick={() => setAddOpen(true)} className="bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold" data-testid="button-add-contact">
-          <Plus className="h-4 w-4 mr-1" />
-          Add contact
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={handleExport}
+            disabled={exporting || isLoading}
+            variant="outline"
+            size="sm"
+            className="border-[#30363D] text-[#8B949E] hover:border-[#00E5A0] hover:text-[#00E5A0] h-9"
+            data-testid="button-export-contacts"
+          >
+            {exporting
+              ? <><Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />Exporting...</>
+              : <><Download className="h-3.5 w-3.5 mr-1.5" />Export CSV</>}
+          </Button>
+          <Button onClick={() => setAddOpen(true)} className="bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold h-9" data-testid="button-add-contact">
+            <Plus className="h-4 w-4 mr-1" />
+            Add contact
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}
