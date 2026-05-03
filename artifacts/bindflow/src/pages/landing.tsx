@@ -72,7 +72,7 @@ export default function LandingPage() {
       <nav className="sticky top-0 z-50 border-b border-[#30363D] bg-[#0D1117]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-3">
-            <img src={logoUrl} alt="BindFlow" className="h-10 w-10 rounded-full object-cover" />
+            <img src={logoUrl} alt="BindFlow" className="h-14 w-14 rounded-full object-cover" />
             <span className="text-lg font-semibold tracking-wide text-[#E6EDF3]">BindFlow</span>
           </Link>
           <div className="hidden items-center gap-3 md:flex">
@@ -288,7 +288,7 @@ export default function LandingPage() {
       <footer className="border-t border-[#30363D] px-6 py-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
-            <img src={logoUrl} alt="BindFlow" className="h-9 w-9 rounded-full object-cover" />
+            <img src={logoUrl} alt="BindFlow" className="h-12 w-12 rounded-full object-cover" />
             <span className="font-semibold text-[#E6EDF3]">BindFlow</span>
           </div>
           <div className="flex gap-5 text-sm text-[#8B949E]">
