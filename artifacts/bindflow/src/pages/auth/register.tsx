@@ -32,6 +32,7 @@ export default function RegisterPage() {
   const searchString = useSearch();
   const params = new URLSearchParams(searchString);
   const refOrgId = params.get("ref");
+  const hasReferral = Boolean(refOrgId);
 
   const [step, setStep] = useState(1);
   const [step1Data, setStep1Data] = useState<Step1Form | null>(null);
@@ -69,8 +70,12 @@ export default function RegisterPage() {
 
       // 2. Create organization — store referred_by if a ref was present in the URL
       const slug = data.agency_name.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-") + "-" + Date.now();
-      const orgInsert: Record<string, unknown> = { name: data.agency_name, slug, owner_id: userId };
-      if (refOrgId) orgInsert.referred_by = refOrgId;
+      const orgInsert: Record<string, unknown> = {
+        name: data.agency_name,
+        slug,
+        owner_id: userId,
+        referred_by: refOrgId,
+      };
 
       const { data: org, error: orgError } = await supabase
         .from("organizations")
@@ -78,6 +83,13 @@ export default function RegisterPage() {
         .select()
         .single();
       if (orgError) throw orgError;
+
+      const trialEndsAt = new Date();
+      trialEndsAt.setDate(trialEndsAt.getDate() + (hasReferral ? 28 : 14));
+      await supabase
+        .from("organizations")
+        .update({ trial_ends_at: trialEndsAt.toISOString() })
+        .eq("id", org.id);
 
       // 3. Create profile
       await supabase.from("profiles").insert({

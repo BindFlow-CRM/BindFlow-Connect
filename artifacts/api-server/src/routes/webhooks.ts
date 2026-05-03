@@ -78,12 +78,12 @@ router.post("/webhooks/paddle", async (req, res) => {
       .eq("id", orgId);
 
     // Credit the referrer if this org was referred
-    const referrerId = (org as { referred_by?: string }).referred_by;
-    if (referrerId) {
+    const referrerCode = (org as { referred_by?: string }).referred_by;
+    if (referrerCode) {
       const { data: referrer } = await sb
         .from("organizations")
-        .select("id, plan, pending_credits, paddle_customer_id")
-        .eq("id", referrerId)
+        .select("id, plan, pending_credits, paddle_customer_id, referral_code")
+        .eq("referral_code", referrerCode)
         .single();
 
       if (referrer) {
@@ -113,7 +113,8 @@ router.post("/webhooks/paddle", async (req, res) => {
                 const errBody = await adjustmentRes.text();
                 req.log.error({ errBody }, "Paddle adjustment API failed");
               } else {
-                req.log.info({ referrerId, paddleCustomerId }, "Paddle credit issued to referrer");
+                req.log.info({ referrerCode, paddleCustomerId }, "Paddle credit issued to referrer");
+                await sb.from("organizations").update({ pending_credits: 0 }).eq("referral_code", referrerCode);
               }
             } catch (err) {
               req.log.error({ err }, "Failed to create Paddle credit adjustment");
@@ -123,8 +124,8 @@ router.post("/webhooks/paddle", async (req, res) => {
           // Referrer not yet active — bank a free month credit
           await sb.from("organizations")
             .update({ pending_credits: currentCredits + 1 })
-            .eq("id", referrerId);
-          req.log.info({ referrerId, newCredits: currentCredits + 1 }, "Pending credit added to referrer");
+            .eq("referral_code", referrerCode);
+          req.log.info({ referrerCode, newCredits: currentCredits + 1 }, "Pending credit added to referrer");
         }
       }
     }

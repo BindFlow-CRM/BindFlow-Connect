@@ -23,6 +23,7 @@ export interface Database {
           referred_by: string | null;
           pending_credits: number | null;
           paddle_customer_id: string | null;
+          referral_code: string | null;
           created_at: string | null;
           updated_at: string | null;
         };
@@ -39,6 +40,7 @@ export interface Database {
           referred_by?: string | null;
           pending_credits?: number | null;
           paddle_customer_id?: string | null;
+          referral_code?: string | null;
           created_at?: string | null;
           updated_at?: string | null;
         };

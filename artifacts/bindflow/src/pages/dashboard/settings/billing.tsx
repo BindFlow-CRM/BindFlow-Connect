@@ -56,8 +56,9 @@ export default function BillingPage() {
     : null;
 
   const pendingCredits = organization?.pending_credits ?? 0;
+  const referralCode = organization?.referral_code ?? organization?.id;
   const referralLink = organization
-    ? `https://bindflowcrm.com/register?ref=${organization.id}`
+    ? `https://bindflowcrm.com/register?ref=${referralCode}`
     : null;
 
   const copyReferralLink = () => {
@@ -173,7 +174,7 @@ export default function BillingPage() {
       <div className="bg-[#161B22] border border-[#30363D] rounded-xl p-5 mb-6">
         <div className="flex items-center gap-2 mb-3">
           <Star className="h-4 w-4 text-[#F0B429]" />
-          <span className="text-sm font-semibold text-[#E6EDF3]">Earn free months — refer agents</span>
+          <span className="text-sm font-semibold text-[#E6EDF3]">Get 1 free month for every agent you refer who becomes a paid subscriber.</span>
         </div>
         <p className="text-xs text-[#8B949E] mb-4 leading-relaxed">
           Share your unique link with fellow insurance agents. Every time someone signs up and subscribes,
@@ -198,9 +199,11 @@ export default function BillingPage() {
           </div>
         )}
         {pendingCredits > 0 && (
-          <div className="mt-3 flex items-center gap-2 text-xs text-[#00E5A0]">
-            <Gift className="h-3.5 w-3.5 flex-shrink-0" />
-            <span>{pendingCredits} credit{pendingCredits !== 1 ? "s" : ""} earned and waiting to be applied</span>
+          <div className="mt-3 flex items-center gap-3 text-[#00E5A0]">
+            <div className="text-4xl font-bold leading-none">{pendingCredits}</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-[#8B949E]">
+              Pending Free Months
+            </div>
           </div>
         )}
       </div>
