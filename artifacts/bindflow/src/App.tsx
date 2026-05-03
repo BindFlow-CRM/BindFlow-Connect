@@ -45,96 +45,96 @@ function Router() {
       <Route path="/" component={LandingPage} />
 
       {/* Auth */}
-      <Route path="/login" component={LoginPage} />
-      <Route path="/register" component={RegisterPage} />
-      <Route path="/forgot-password" component={ForgotPasswordPage} />
+      <Route path="/app/login" component={LoginPage} />
+      <Route path="/app/register" component={RegisterPage} />
+      <Route path="/app/forgot-password" component={ForgotPasswordPage} />
 
       {/* Dashboard (protected) */}
-      <Route path="/dashboard">
+      <Route path="/app/dashboard">
         {() => (
           <DashboardLayout>
             <DashboardHome />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/pipeline">
+      <Route path="/app/pipeline">
         {() => (
           <DashboardLayout>
             <PipelinePage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/contacts">
+      <Route path="/app/contacts">
         {() => (
           <DashboardLayout>
             <ContactsPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/contacts/:id">
+      <Route path="/app/contacts/:id">
         {(params) => (
           <DashboardLayout>
             <ContactDetailPage id={params.id ?? ""} />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/calendar">
+      <Route path="/app/calendar">
         {() => (
           <DashboardLayout>
             <CalendarPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/reminders">
+      <Route path="/app/reminders">
         {() => (
           <DashboardLayout>
             <RemindersPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/referrals">
+      <Route path="/app/referrals">
         {() => (
           <DashboardLayout>
             <ReferralsPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/templates">
+      <Route path="/app/templates">
         {() => (
           <DashboardLayout>
             <TemplatesPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/renewal-radar">
+      <Route path="/app/renewal-radar">
         {() => (
           <DashboardLayout>
             <RenewalRadarPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/settings">
+      <Route path="/app/settings">
         {() => (
           <DashboardLayout>
             <SettingsPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/settings/team">
+      <Route path="/app/settings/team">
         {() => (
           <DashboardLayout>
             <TeamSettingsPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/settings/billing">
+      <Route path="/app/settings/billing">
         {() => (
           <DashboardLayout>
             <BillingPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/admin-panel">
+      <Route path="/app/admin-panel">
         {() => (
           <DashboardLayout>
             <AdminPanelPage />
@@ -152,7 +152,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+          <WouterRouter base={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/app`}>
             <Router />
           </WouterRouter>
           <Toaster />

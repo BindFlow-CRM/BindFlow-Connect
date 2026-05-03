@@ -38,7 +38,7 @@ export default function LoginPage() {
         password: data.password,
       });
       if (error) throw error;
-      setLocation("/dashboard");
+      setLocation("/app/dashboard");
     } catch (err: unknown) {
       toast({
         title: "Sign in failed",
@@ -86,7 +86,7 @@ export default function LoginPage() {
             <div>
               <div className="flex justify-between items-center mb-1.5">
                 <Label className="text-[#E6EDF3] text-sm">Password</Label>
-                <Link href="/forgot-password" className="text-xs text-[#00B4D8] hover:text-[#00E5A0] transition-colors">
+                <Link href="/app/forgot-password" className="text-xs text-[#00B4D8] hover:text-[#00E5A0] transition-colors">
                   Forgot password?
                 </Link>
               </div>
@@ -124,7 +124,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-[#8B949E] mt-6">
           Don't have an account?{" "}
-          <Link href="/register" className="text-[#00E5A0] hover:underline font-medium">
+          <Link href="/app/register" className="text-[#00E5A0] hover:underline font-medium">
             Start free trial
           </Link>
         </p>

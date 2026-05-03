@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Bell, ChevronRight, Home, Kanban, Mail, Settings, Users, LogOut } from "lucide-react";
 
 const NAV_ITEMS = [
-  { icon: Home, label: "Dashboard", href: "/dashboard" },
-  { icon: Kanban, label: "Pipeline", href: "/pipeline" },
-  { icon: Users, label: "Contacts", href: "/contacts" },
-  { icon: Mail, label: "Templates", href: "/templates" },
-  { icon: Settings, label: "Settings", href: "/settings" },
+  { icon: Home, label: "Dashboard", href: "/app/dashboard" },
+  { icon: Kanban, label: "Pipeline", href: "/app/pipeline" },
+  { icon: Users, label: "Contacts", href: "/app/contacts" },
+  { icon: Mail, label: "Templates", href: "/app/templates" },
+  { icon: Settings, label: "Settings", href: "/app/settings" },
 ];
 
 const logoUrl =
@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { user, profile, organization, loading, signOut } = useAuth();
 
   useEffect(() => {
-    if (!loading && !user) setLocation("/login");
+    if (!loading && !user) setLocation("/app/login");
   }, [user, loading, setLocation]);
 
   if (loading) {
@@ -37,7 +37,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   if (!user) return null;
 
-  const isActive = (href: string) => (href === "/dashboard" ? location === "/dashboard" || location === "/" : location.startsWith(href));
+  const isActive = (href: string) => (href === "/app/dashboard" ? location === "/app/dashboard" : location.startsWith(href));
   const initials = profile?.full_name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2) || "U";
   const trialDays = organization?.trial_ends_at ? Math.max(0, Math.ceil((new Date(organization.trial_ends_at).getTime() - Date.now()) / 86400000)) : null;
 
@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <div className="truncate text-sm font-medium text-[#E6EDF3]">{profile?.full_name || "Agent"}</div>
               <div className="truncate text-xs text-[#8B949E]">{user.email}</div>
             </div>
-            <Button variant="ghost" size="icon" onClick={() => { signOut(); setLocation("/login"); }} className="h-8 w-8 text-[#8B949E] hover:text-[#F85149]">
+            <Button variant="ghost" size="icon" onClick={() => { signOut(); setLocation("/app/login"); }} className="h-8 w-8 text-[#8B949E] hover:text-[#F85149]">
               <LogOut className="h-4 w-4" />
             </Button>
           </div>
@@ -88,7 +88,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="ml-[240px] flex min-h-screen flex-1 flex-col bg-[#0D1117]">
         <header className="flex h-16 items-center justify-between border-b border-[#30363D] px-6">
           <h1 className="text-lg font-semibold text-[#E6EDF3]">
-            {location === "/dashboard" || location === "/" ? "Dashboard" : location.split("/")[1]?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) || "Dashboard"}
+            {location === "/app/dashboard" ? "Dashboard" : location.split("/")[2]?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) || "Dashboard"}
           </h1>
           <button className="flex h-10 w-10 items-center justify-center rounded-full border border-[#30363D] text-[#8B949E] transition-colors hover:border-[#00E5A0] hover:text-[#00E5A0]">
             <Bell className="h-4 w-4" />

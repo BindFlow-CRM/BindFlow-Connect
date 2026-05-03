@@ -191,12 +191,12 @@ export default function DashboardHome() {
             <p className="text-sm text-[#8B949E]">Move fast and keep growth flowing.</p>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Link href="/contacts">
+            <Link href="/app/contacts">
               <Button className="w-full justify-start gap-2 bg-[#00E5A0] text-[#0D1117] hover:bg-[#00C98A]">
                 <Plus className="h-4 w-4" /> New Quote
               </Button>
             </Link>
-            <Link href="/contacts">
+            <Link href="/app/contacts">
               <Button variant="outline" className="w-full justify-start gap-2 border-[#30363D] text-[#E6EDF3] hover:border-[#00E5A0] hover:text-[#00E5A0]">
                 <Users className="h-4 w-4" /> Add Contact
               </Button>

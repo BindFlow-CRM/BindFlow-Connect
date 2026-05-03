@@ -121,7 +121,7 @@ export default function RegisterPage() {
       await supabase.from("pipeline_stages").insert(stages);
 
       setStep(3);
-      setTimeout(() => setLocation("/dashboard"), 2000);
+      setTimeout(() => setLocation("/app/dashboard"), 2000);
     } catch (err: unknown) {
       toast({
         title: "Registration failed",
@@ -241,7 +241,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-[#8B949E] mt-6">
           Already have an account?{" "}
-          <Link href="/login" className="text-[#00E5A0] hover:underline font-medium">Sign in</Link>
+          <Link href="/app/login" className="text-[#00E5A0] hover:underline font-medium">Sign in</Link>
         </p>
       </div>
     </div>
