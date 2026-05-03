@@ -54,7 +54,7 @@ export default function LoginPage() {
     <div className="dark min-h-screen bg-[#0D1117] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <img src={logoUrl} alt="BindFlow" className="h-20 w-56 object-contain mx-auto mb-4" />
+          <img src={logoUrl} alt="BindFlow" className="h-24 w-64 object-contain mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-[#E6EDF3]">Welcome back</h1>
           <p className="text-[#8B949E] text-sm mt-1">Sign in to your BindFlow account</p>
         </div>
