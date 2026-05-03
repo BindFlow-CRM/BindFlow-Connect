@@ -91,7 +91,7 @@ export default function LandingPage() {
         <section className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
           <div>
             <Badge className="mb-6 border-[#00E5A030] bg-[#00E5A015] px-4 py-1 text-[#00E5A0]">VIP CRM for Independent Agents</Badge>
-            <h1 className="max-w-2xl text-6xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 md:text-8xl">
+            <h1 className="max-w-2xl text-5xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 md:text-7xl">
               Sell better.
               <br />
               Retain longer.
@@ -199,7 +199,9 @@ export default function LandingPage() {
                 ))}
               </div>
               <div className="mt-6 text-sm text-[#8B949E]">No hidden fees. Built for serious agencies.</div>
-              <div className="mt-3 text-sm text-[#00E5A0]">15% off with annual billing.</div>
+              <div className="mt-5 rounded-2xl border border-white/5 bg-white/5 px-4 py-3 text-sm text-[#8B949E]">
+                Pay annually and get <span className="font-semibold text-[#00E5A0]">15% off</span> automatically.
+              </div>
             </div>
             <div className="relative overflow-hidden rounded-3xl border border-[#00E5A0]/30 bg-[#161B22]/80 p-8 shadow-[0_0_60px_rgba(0,229,160,0.12)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,229,160,0.12)]">
               <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[radial-gradient(circle_at_top,_rgba(0,229,160,0.18),_transparent_70%)]" />
