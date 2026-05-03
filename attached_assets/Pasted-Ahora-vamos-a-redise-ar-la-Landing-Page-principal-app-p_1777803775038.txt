@@ -1,0 +1,25 @@
+Ahora vamos a rediseñar la Landing Page principal (app/page.tsx) para que tenga un aspecto SaaS ultra-premium, oscuro y moderno. Basa todo el diseño en el Dark Mode nativo de Tailwind, usando #0D1117 de fondo, texto #E6EDF3, y acentos brillantes en #00E5A0 y #00B4D8.
+
+Construye la página con la siguiente estructura exacta:
+
+1. Navbar (Sticky): Logo a la izquierda (Usa EXACTAMENTE esta URL: [https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE](https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE)), enlaces 'Features', 'Pricing', 'FAQ' al centro, y botones 'Login' y 'Start Free Trial' (botón primario) a la derecha.
+
+2. Hero Section:
+
+A la izquierda: Badge superior que diga 'The CRM for Independent Agents'. Título masivo: 'Pipeline That Flows. Policies That Grow.' Subtítulo: 'The premium, data-driven CRM built specifically for independent insurance agents. Manage renewals, quote faster, and scale your book of business.' Dos botones: 'Start 14-Day Free Trial' (verde) y 'See Pricing' (outline). Texto debajo: 'No credit card required. Setup in minutes.'
+
+A la derecha: Crea una ilustración abstracta simulando la UI del tablero Kanban usando divs de Tailwind, con un fondo con 'glow' sutil usando shadow-[0_0_60px_rgba(0,229,160,0.15)].
+
+3. What is BindFlow? (Grid 1): Título y texto introductorio a la izquierda. A la derecha, un grid 2x2 con cards oscuras (bg-[#161B22]) con bordes sutiles (border-[#30363D]) destacando: 'Visual Pipeline', 'Cross-Sell Engine', 'Auto Alerts', 'Agent-friendly'.
+
+4. Everything you need (Grid 2): 3 columnas con iconos de Lucide. Títulos: 'Visual Kanban Pipeline' (Drag & drop tu ciclo de ventas), 'Automated Renewals' (Alertas 90/60/30 días), 'Smart Client Management' (Ficha 360º de cada póliza).
+
+5. Pricing Block ('One plan. Everything included.'):
+
+Crea un contenedor ancho. Lado izquierdo: Precio grande '$39 / month' (añade un toggle para Annual billing con 15% off). Lista de checks de features (Pipeline, unlimited contacts, auto-alerts, cross-sell engine).
+
+Lado derecho: Card destacada con fondo #161B22 que diga 'Start selling smarter today' con un botón CTA grande verde.
+
+6. FAQ (Accordion): Usa el componente Accordion de shadcn/ui. Preguntas: 'Do I need a credit card to start?', 'Can I manage multiple lines of insurance?', 'How do the renewal alerts work?'.
+
+7. Bottom CTA & Footer: Sección final centrada: 'Ready to scale your insurance business?', botón grande de 'Start Free Trial'. Footer minimalista con el logo y enlaces legales.

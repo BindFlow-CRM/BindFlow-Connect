@@ -1,223 +1,302 @@
+import { useMemo, useState } from "react";
 import { Link } from "wouter";
-import { Shield, TrendingUp, MessageCircle, Bell, Users, BarChart3, CheckCircle, ArrowRight, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import {
+  ArrowRight,
+  BarChart3,
+  Bell,
+  Check,
+  ChevronDown,
+  CircleDollarSign,
+  CloudLightning,
+  Grid3x3,
+  Menu,
+  MoveRight,
+  Shield,
+  Sparkles,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+const logoUrl =
+  "https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE";
+
+const features = [
+  {
+    icon: TrendingUp,
+    title: "Visual Kanban Pipeline",
+    desc: "Drag & drop tu ciclo de ventas",
+  },
+  {
+    icon: Bell,
+    title: "Automated Renewals",
+    desc: "Alertas 90/60/30 días",
+  },
+  {
+    icon: Users,
+    title: "Smart Client Management",
+    desc: "Ficha 360º de cada póliza",
+  },
+];
+
+const faqs = [
+  {
+    q: "Do I need a credit card to start?",
+    a: "No. You can start your 14-day free trial without entering a card.",
+  },
+  {
+    q: "Can I manage multiple lines of insurance?",
+    a: "Yes. BindFlow is built for P&C, life, health, commercial, and mixed books.",
+  },
+  {
+    q: "How do the renewal alerts work?",
+    a: "We surface policies renewing in 90, 60, and 30 days so your team can act before churn happens.",
+  },
+];
 
 export default function LandingPage() {
+  const [annualBilling, setAnnualBilling] = useState(false);
+  const price = annualBilling ? "$33" : "$39";
+  const billingLabel = annualBilling ? "/ month, billed annually" : "/ month";
+  const totalLabel = annualBilling ? "15% off annual billing" : "Cancel anytime";
+
+  const checklist = useMemo(
+    () => ["Pipeline", "Unlimited contacts", "Auto-alerts", "Cross-sell engine"],
+    [],
+  );
+
   return (
-    <div className="dark min-h-screen bg-[#0D1117] text-[#E6EDF3] font-['Inter',sans-serif]">
-      {/* NAV */}
-      <nav className="border-b border-[#30363D] px-6 py-4 flex items-center justify-between sticky top-0 z-50 bg-[#0D1117]/95 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <img
-            src="https://mprcqzsffqdvowogaedf.supabase.co/storage/v1/object/sign/assets/logocuadrado-jpg512.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hMjI2YmI4ZS0yNzJjLTRkNjktYmZkNy0zOTc3OTU5Yjk2NTEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvbG9nb2N1YWRyYWRvLWpwZzUxMi5qcGVnIiwiaWF0IjoxNzc3NzIyMjExLCJleHAiOjMzMTMxMzcyMjIxMX0.LS3aj-1COT7OQ0l7m4NEGc-PFwFQx8-2WyxYACa0Yk8"
-            alt="BindFlow"
-            className="w-9 h-9 rounded-lg object-cover"
-          />
-          <span className="text-xl font-bold text-[#E6EDF3]">BindFlow</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <Link href="/login">
-            <Button variant="ghost" className="text-[#8B949E] hover:text-[#E6EDF3]">Sign in</Button>
+    <div className="dark min-h-screen bg-[#0D1117] text-[#E6EDF3]">
+      <nav className="sticky top-0 z-50 border-b border-[#30363D] bg-[#0D1117]/90 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <Link href="/" className="flex items-center gap-3">
+            <img src={logoUrl} alt="BindFlow" className="h-10 w-10 rounded-full object-cover" />
+            <span className="text-lg font-semibold tracking-wide text-[#E6EDF3]">BindFlow</span>
           </Link>
-          <Link href="/register">
-            <Button className="bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold">
-              Start Free Trial
-            </Button>
-          </Link>
+          <div className="hidden items-center gap-3 md:flex">
+            <Link href="/login">
+              <Button variant="ghost" className="text-[#8B949E] hover:text-[#E6EDF3]">
+                Sign in
+              </Button>
+            </Link>
+            <Link href="/register">
+              <Button className="bg-[#00E5A0] text-[#0D1117] hover:bg-[#00C98A]">Start Free Trial</Button>
+            </Link>
+          </div>
+          <Button variant="ghost" className="md:hidden text-[#E6EDF3]">
+            <Menu className="h-5 w-5" />
+          </Button>
         </div>
       </nav>
 
-      {/* HERO */}
-      <section className="px-6 py-24 max-w-6xl mx-auto text-center">
-        <Badge className="mb-6 bg-[#00E5A015] text-[#00E5A0] border-[#00E5A030] px-4 py-1">
-          Built for independent insurance agents
-        </Badge>
-        <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 text-[#E6EDF3]">
-          The CRM built for the way
-          <br />
-          <span className="text-[#00E5A0]">you sell insurance</span>
-        </h1>
-        <p className="text-xl text-[#8B949E] max-w-2xl mx-auto mb-10">
-          Track renewals, manage your pipeline, and follow up with clients — all from one place built specifically for insurance agents.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/register">
-            <Button size="lg" className="bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold px-8 h-12 text-base">
-              Start 14-day free trial
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
-          <Button size="lg" variant="outline" className="border-[#30363D] text-[#E6EDF3] hover:border-[#00E5A0] h-12 px-8 text-base">
-            See how it works
-          </Button>
-        </div>
-        <p className="mt-4 text-sm text-[#484F58]">No credit card required. 14-day free trial.</p>
-      </section>
-
-      {/* FEATURES */}
-      <section className="px-6 py-20 max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl font-bold mb-4">Everything you need to close more policies</h2>
-          <p className="text-[#8B949E] text-lg">Built around the insurance sales workflow, not a generic CRM template.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              icon: <TrendingUp className="h-6 w-6" />,
-              color: "#00E5A0",
-              title: "Visual Pipeline",
-              desc: "Drag-and-drop kanban board with 6 insurance-specific stages: Lead, Quoted, Follow-up, Closed Won, Active Policy, and Renewal Due.",
-            },
-            {
-              icon: <Bell className="h-6 w-6" />,
-              color: "#F0B429",
-              title: "Renewal Alerts",
-              desc: "Automatic renewal reminders at 90, 60, and 30 days. Never miss a renewal window and lose a client to a competitor.",
-            },
-            {
-              icon: <MessageCircle className="h-6 w-6" />,
-              color: "#00B4D8",
-              title: "WhatsApp Integration",
-              desc: "One-click WhatsApp outreach directly from every contact card and pipeline deal. Reach clients where they actually respond.",
-            },
-            {
-              icon: <Users className="h-6 w-6" />,
-              color: "#00E5A0",
-              title: "Client Management",
-              desc: "Full client profiles with policies, activity timeline, notes, and cross-sell opportunity tracking.",
-            },
-            {
-              icon: <BarChart3 className="h-6 w-6" />,
-              color: "#00B4D8",
-              title: "Dashboard & Analytics",
-              desc: "KPI cards, pipeline value by stage, lead source breakdown, and renewal forecast charts.",
-            },
-            {
-              icon: <Shield className="h-6 w-6" />,
-              color: "#F0B429",
-              title: "Referral Tracker",
-              desc: "Track who referred whom and visualize your referral network. Reward your best referrers.",
-            },
-          ].map((f, i) => (
-            <div
-              key={i}
-              className="bg-[#161B22] border border-[#30363D] rounded-xl p-6 hover:border-[#30363D80] transition-all"
-              data-testid={`feature-card-${i}`}
-            >
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: `${f.color}15`, color: f.color }}>
-                {f.icon}
-              </div>
-              <h3 className="font-semibold text-lg mb-2">{f.title}</h3>
-              <p className="text-[#8B949E] text-sm leading-relaxed">{f.desc}</p>
+      <main>
+        <section className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
+          <div>
+            <Badge className="mb-6 border-[#00E5A030] bg-[#00E5A015] px-4 py-1 text-[#00E5A0]">
+              The CRM for Independent Agents
+            </Badge>
+            <h1 className="max-w-2xl text-5xl font-bold leading-[1.05] md:text-6xl">
+              Pipeline That Flows. Policies That Grow.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-[#8B949E]">
+              The premium, data-driven CRM built specifically for independent insurance agents.
+              Manage renewals, quote faster, and scale your book of business.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/register">
+                <Button className="h-12 bg-[#00E5A0] px-6 text-[#0D1117] hover:bg-[#00C98A]">
+                  Start 14-Day Free Trial <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <a href="#pricing">
+                <Button variant="outline" className="h-12 border-[#30363D] px-6 text-[#E6EDF3] hover:border-[#00B4D8]">
+                  See Pricing
+                </Button>
+              </a>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* PIPELINE PREVIEW */}
-      <section className="px-6 py-20 bg-[#161B22] border-y border-[#30363D]">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Your pipeline, the way insurance works</h2>
-            <p className="text-[#8B949E]">6 pre-built stages designed for the insurance sales cycle</p>
+            <p className="mt-4 text-sm text-[#8B949E]">No credit card required. Setup in minutes.</p>
           </div>
-          <div className="flex gap-3 overflow-x-auto pb-4">
-            {[
-              { name: "Lead", color: "#8B949E", count: 12, value: "$48,000" },
-              { name: "Quoted", color: "#00B4D8", count: 8, value: "$32,000" },
-              { name: "Follow-up", color: "#F0B429", count: 5, value: "$21,500" },
-              { name: "Closed Won", color: "#00E5A0", count: 3, value: "$14,200" },
-              { name: "Active Policy", color: "#00C98A", count: 47, value: "$198,000" },
-              { name: "Renewal Due", color: "#F85149", count: 9, value: "$38,400" },
-            ].map((stage) => (
-              <div
-                key={stage.name}
-                className="flex-shrink-0 w-44 bg-[#0D1117] border border-[#30363D] rounded-lg overflow-hidden"
-              >
-                <div className="px-3 py-2 border-b-2" style={{ borderBottomColor: stage.color }}>
-                  <span className="text-xs font-semibold" style={{ color: stage.color }}>{stage.name}</span>
-                  <div className="text-xs text-[#8B949E] mt-1">{stage.count} deals</div>
+
+          <div className="relative">
+            <div className="absolute inset-0 -z-10 rounded-3xl bg-[#00E5A01A] blur-3xl" />
+            <div className="shadow-[0_0_60px_rgba(0,229,160,0.15)] rounded-3xl border border-[#30363D] bg-[#161B22] p-5">
+              <div className="mb-4 flex items-center justify-between border-b border-[#30363D] pb-4">
+                <div className="flex gap-2">
+                  <div className="h-3 w-3 rounded-full bg-[#F85149]" />
+                  <div className="h-3 w-3 rounded-full bg-[#F0B429]" />
+                  <div className="h-3 w-3 rounded-full bg-[#00E5A0]" />
                 </div>
-                <div className="p-3">
-                  <div className="text-sm font-semibold text-[#E6EDF3]">{stage.value}</div>
-                  <div className="mt-2 space-y-2">
-                    {[1, 2].map((i) => (
-                      <div key={i} className="bg-[#1C2128] border border-[#30363D] rounded p-2 border-l-2" style={{ borderLeftColor: stage.color }}>
-                        <div className="h-2 bg-[#30363D] rounded w-3/4 mb-1"></div>
-                        <div className="h-2 bg-[#30363D] rounded w-1/2"></div>
-                      </div>
-                    ))}
+                <div className="text-xs text-[#8B949E]">BindFlow Pipeline</div>
+              </div>
+              <div className="grid gap-3 md:grid-cols-3">
+                {[
+                  { title: "Lead", color: "#8B949E" },
+                  { title: "Quoted", color: "#00B4D8" },
+                  { title: "Renewal Due", color: "#F85149" },
+                ].map((col) => (
+                  <div key={col.title} className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3">
+                    <div className="mb-3 flex items-center justify-between">
+                      <span className="text-xs font-semibold" style={{ color: col.color }}>
+                        {col.title}
+                      </span>
+                      <span className="text-[10px] text-[#8B949E]">3 cards</span>
+                    </div>
+                    <div className="space-y-3">
+                      {[1, 2].map((i) => (
+                        <div key={i} className="rounded-xl border border-[#30363D] bg-[#161B22] p-3">
+                          <div className="mb-2 h-2 w-2/3 rounded-full bg-[#30363D]" />
+                          <div className="mb-3 h-2 w-1/2 rounded-full bg-[#30363D]" />
+                          <div className="flex items-center justify-between text-[10px] text-[#8B949E]">
+                            <span>Client {i}</span>
+                            <span>$4,2{i}0</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto grid max-w-7xl gap-10 px-6 py-20 lg:grid-cols-2 lg:items-center">
+          <div>
+            <h2 className="text-3xl font-bold">What is BindFlow?</h2>
+            <p className="mt-4 max-w-xl text-[#8B949E]">
+              A modern operating system for independent agents to manage pipelines, renewals, cross-sells,
+              and client relationships from one premium workspace.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              ["Visual Pipeline", "Track every opportunity end-to-end."],
+              ["Cross-Sell Engine", "Spot coverage gaps automatically."],
+              ["Auto Alerts", "Stay ahead of every renewal."],
+              ["Agent-friendly", "Built for insurance workflows."],
+            ].map(([title, desc]) => (
+              <div key={title} className="rounded-2xl border border-[#30363D] bg-[#161B22] p-5">
+                <div className="mb-3 h-10 w-10 rounded-xl bg-[#00E5A015] text-[#00E5A0] flex items-center justify-center">
+                  <Sparkles className="h-5 w-5" />
                 </div>
+                <h3 className="font-semibold">{title}</h3>
+                <p className="mt-2 text-sm text-[#8B949E]">{desc}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* PRICING */}
-      <section className="px-6 py-20 max-w-4xl mx-auto">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl font-bold mb-4">Simple, transparent pricing</h2>
-          <p className="text-[#8B949E]">One plan, everything included. Up to 3 agents per workspace.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Monthly */}
-          <div className="bg-[#161B22] border border-[#30363D] rounded-xl p-8">
-            <div className="text-[#8B949E] text-sm font-medium mb-2">Monthly</div>
-            <div className="text-4xl font-bold mb-1">$39<span className="text-lg text-[#8B949E] font-normal">/mo</span></div>
-            <div className="text-[#8B949E] text-sm mb-6">per workspace</div>
+        <section className="mx-auto max-w-7xl px-6 py-20">
+          <div className="mb-10">
+            <h2 className="text-3xl font-bold">Everything you need</h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {features.map((f) => {
+              const Icon = f.icon;
+              return (
+                <div key={f.title} className="rounded-2xl border border-[#30363D] bg-[#161B22] p-6">
+                  <div className="mb-4 h-12 w-12 rounded-2xl bg-[#00E5A015] text-[#00E5A0] flex items-center justify-center">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold">{f.title}</h3>
+                  <p className="mt-2 text-[#8B949E]">{f.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <section id="pricing" className="mx-auto max-w-7xl px-6 py-20">
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl font-bold">One plan. Everything included.</h2>
+          </div>
+          <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="rounded-3xl border border-[#30363D] bg-[#161B22] p-8">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <div className="text-sm text-[#8B949E]">Billing</div>
+                  <div className="mt-2 text-5xl font-bold">
+                    {price} <span className="text-xl text-[#8B949E]">{billingLabel}</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setAnnualBilling((v) => !v)}
+                  className={`flex h-11 items-center rounded-full border px-1 transition ${annualBilling ? "border-[#00E5A0] bg-[#00E5A015]" : "border-[#30363D] bg-[#0D1117]"}`}
+                >
+                  <span className={`rounded-full px-4 py-2 text-sm ${!annualBilling ? "bg-[#00E5A0] text-[#0D1117]" : "text-[#8B949E]"}`}>Monthly</span>
+                  <span className={`rounded-full px-4 py-2 text-sm ${annualBilling ? "bg-[#00E5A0] text-[#0D1117]" : "text-[#8B949E]"}`}>Annual</span>
+                </button>
+              </div>
+              <div className="mt-6 space-y-3">
+                {checklist.map((item) => (
+                  <div key={item} className="flex items-center gap-3 text-sm">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#00E5A015] text-[#00E5A0]">
+                      <Check className="h-3.5 w-3.5" />
+                    </div>
+                    {item}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 text-sm text-[#8B949E]">{totalLabel}</div>
+            </div>
+            <div className="rounded-3xl border border-[#00E5A0] bg-[#161B22] p-8 shadow-[0_0_60px_rgba(0,229,160,0.12)]">
+              <div className="text-sm text-[#8B949E]">Start selling smarter today</div>
+              <h3 className="mt-3 text-2xl font-bold">Everything in one place.</h3>
+              <p className="mt-3 text-[#8B949E]">
+                Launch your agency workspace with pipelines, renewals, contacts, and cross-sell intelligence.
+              </p>
+              <Link href="/register" className="mt-8 block">
+                <Button className="h-12 w-full bg-[#00E5A0] text-[#0D1117] hover:bg-[#00C98A]">
+                  Start Free Trial
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-4xl px-6 py-20">
+          <div className="mb-8 text-center">
+            <h2 className="text-3xl font-bold">FAQ</h2>
+          </div>
+          <Accordion type="single" collapsible className="rounded-2xl border border-[#30363D] bg-[#161B22] px-6">
+            {faqs.map((item) => (
+              <AccordionItem key={item.q} value={item.q} className="border-[#30363D]">
+                <AccordionTrigger className="text-left text-[#E6EDF3] hover:no-underline">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-[#8B949E]">{item.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
+
+        <section className="mx-auto max-w-4xl px-6 py-20 text-center">
+          <h2 className="text-3xl font-bold">Ready to scale your insurance business?</h2>
+          <div className="mt-8">
             <Link href="/register">
-              <Button className="w-full bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold">
-                Start free trial
+              <Button className="h-12 bg-[#00E5A0] px-8 text-[#0D1117] hover:bg-[#00C98A]">
+                Start Free Trial
               </Button>
             </Link>
           </div>
-          {/* Annual */}
-          <div className="bg-[#161B22] border border-[#00E5A0] rounded-xl p-8 relative overflow-hidden">
-            <div className="absolute top-4 right-4">
-              <Badge className="bg-[#00E5A015] text-[#00E5A0] border-[#00E5A030]">Save 15%</Badge>
-            </div>
-            <div className="text-[#8B949E] text-sm font-medium mb-2">Annual</div>
-            <div className="text-4xl font-bold mb-1">$33<span className="text-lg text-[#8B949E] font-normal">/mo</span></div>
-            <div className="text-[#8B949E] text-sm mb-1">billed $397/year</div>
-            <div className="text-[#00E5A0] text-sm mb-6 font-medium">Save $71 per year</div>
-            <Link href="/register">
-              <Button className="w-full bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold">
-                Start free trial
-              </Button>
-            </Link>
+        </section>
+      </main>
+
+      <footer className="border-t border-[#30363D] px-6 py-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-3">
+            <img src={logoUrl} alt="BindFlow" className="h-9 w-9 rounded-full object-cover" />
+            <span className="font-semibold text-[#E6EDF3]">BindFlow</span>
+          </div>
+          <div className="flex gap-5 text-sm text-[#8B949E]">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/contact">Contact</a>
           </div>
         </div>
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {["14-day free trial", "No credit card needed", "Up to 3 agents", "Cancel anytime"].map((item) => (
-            <div key={item} className="flex items-center gap-2 text-sm text-[#8B949E]">
-              <CheckCircle className="h-4 w-4 text-[#00E5A0] flex-shrink-0" />
-              {item}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="px-6 py-20 text-center bg-gradient-to-b from-[#0D1117] to-[#161B22] border-t border-[#30363D]">
-        <Zap className="h-12 w-12 text-[#00E5A0] mx-auto mb-6" />
-        <h2 className="text-3xl font-bold mb-4">Ready to grow your book of business?</h2>
-        <p className="text-[#8B949E] text-lg mb-8 max-w-xl mx-auto">
-          Join insurance agents who use BindFlow to stay on top of renewals and close more deals.
-        </p>
-        <Link href="/register">
-          <Button size="lg" className="bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold px-10 h-12 text-base">
-            Start your 14-day free trial
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </Link>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="border-t border-[#30363D] px-6 py-8 text-center text-sm text-[#484F58]">
-        <p>© 2026 BindFlow. The CRM built for the way you sell insurance.</p>
       </footer>
     </div>
   );
