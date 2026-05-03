@@ -13,6 +13,7 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import heroMockup from "@assets/capture_1777807709083.png";
 
 const logoUrl =
   "https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE";
@@ -93,30 +94,8 @@ export default function LandingPage() {
 
           <div className="relative">
             <div className="pointer-events-none absolute -top-20 -right-20 h-[500px] w-[500px] rounded-full bg-[#00E5A0]/20 blur-[120px]" />
-            <div className="relative rounded-xl border border-white/10 bg-[#161B22]/80 p-5 shadow-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#00E5A0]/50 hover:shadow-[0_8px_30px_rgb(0,229,160,0.12)]">
-              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-4">
-                <div className="flex gap-2"><div className="h-3 w-3 rounded-full bg-[#F85149]" /><div className="h-3 w-3 rounded-full bg-[#F0B429]" /><div className="h-3 w-3 rounded-full bg-[#00E5A0]" /></div>
-                <div className="text-xs text-[#8B949E]">BindFlow Pipeline</div>
-              </div>
-              <div className="grid gap-3 md:grid-cols-3">
-                {[{ title: "Lead", color: "#8B949E" }, { title: "Quoted", color: "#00B4D8" }, { title: "Renewal Due", color: "#F85149" }].map((col) => (
-                  <div key={col.title} className="rounded-2xl border border-white/5 bg-[#0D1117] p-3 transition-all duration-300 hover:-translate-y-1 hover:border-[#00E5A0]/50 hover:shadow-[0_8px_30px_rgb(0,229,160,0.12)]">
-                    <div className="mb-3 flex items-center justify-between">
-                      <span className="text-xs font-semibold" style={{ color: col.color }}>{col.title}</span>
-                      <span className="text-[10px] text-[#8B949E]">3 cards</span>
-                    </div>
-                    <div className="space-y-3">
-                      {[1, 2].map((i) => (
-                        <div key={i} className="rounded-xl border border-white/5 bg-[#161B22] p-3 transition-all duration-300 hover:-translate-y-1 hover:border-[#00E5A0]/50">
-                          <div className="mb-2 h-2 w-2/3 rounded-full bg-[#30363D]" />
-                          <div className="mb-3 h-2 w-1/2 rounded-full bg-[#30363D]" />
-                          <div className="flex items-center justify-between text-[10px] text-[#8B949E]"><span>Client {i}</span><span>$4,2{i}0</span></div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#161B22]/80 p-4 shadow-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#00E5A0]/50 hover:shadow-[0_8px_30px_rgb(0,229,160,0.12)]">
+              <img src={heroMockup} alt="BindFlow dashboard mockup" className="w-full rounded-xl object-cover" />
             </div>
           </div>
         </section>
