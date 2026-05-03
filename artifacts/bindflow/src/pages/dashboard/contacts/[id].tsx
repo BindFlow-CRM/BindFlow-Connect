@@ -336,6 +336,104 @@ function WhatsAppComposer({
   );
 }
 
+// ── Cross-Sell Engine ─────────────────────────────────────────────────────────
+const CROSS_SELL_RULES: Array<{
+  id: string;
+  has: string[];
+  missing: string;
+  label: string;
+  pitch: string;
+  color: string;
+}> = [
+  {
+    id: "home",
+    has: ["auto"],
+    missing: "home",
+    label: "Home Insurance",
+    pitch: "Client has Auto but no Home policy. Bundle discount opportunity.",
+    color: "#00E5A0",
+  },
+  {
+    id: "auto",
+    has: ["home"],
+    missing: "auto",
+    label: "Auto Insurance",
+    pitch: "Client has Home but no Auto policy. Pitch a bundle for savings.",
+    color: "#00E5A0",
+  },
+  {
+    id: "life",
+    has: ["auto", "home"],
+    missing: "life",
+    label: "Life Insurance",
+    pitch: "Client has Property coverage but no Life policy. High-value opportunity.",
+    color: "#00B4D8",
+  },
+  {
+    id: "umbrella",
+    has: ["auto", "home"],
+    missing: "umbrella",
+    label: "Umbrella Policy",
+    pitch: "Multiple property policies — ideal candidate for Umbrella coverage.",
+    color: "#F0B429",
+  },
+  {
+    id: "health",
+    has: ["life"],
+    missing: "health",
+    label: "Health Insurance",
+    pitch: "Has Life coverage but no Health policy on file.",
+    color: "#00B4D8",
+  },
+];
+
+function CrossSellEngine({ policies }: { policies: Policy[] }) {
+  const lines = new Set(
+    policies
+      .map((p) => p.line_of_insurance?.toLowerCase().trim())
+      .filter(Boolean) as string[]
+  );
+
+  const opportunities = CROSS_SELL_RULES.filter(
+    (rule) =>
+      rule.has.some((h) => lines.has(h)) && !lines.has(rule.missing)
+  );
+
+  if (opportunities.length === 0 || policies.length === 0) return null;
+
+  return (
+    <div className="mb-4 space-y-2" data-testid="cross-sell-engine">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="h-px flex-1 bg-[#30363D]" />
+        <span className="text-[10px] uppercase tracking-widest text-[#484F58] font-semibold px-1">
+          Cross-Sell Opportunities
+        </span>
+        <div className="h-px flex-1 bg-[#30363D]" />
+      </div>
+      {opportunities.map((opp) => (
+        <div
+          key={opp.id}
+          className="flex items-start gap-3 px-4 py-3 rounded-xl border"
+          style={{
+            background: `${opp.color}08`,
+            borderColor: `${opp.color}30`,
+          }}
+          data-testid={`cross-sell-${opp.id}`}
+        >
+          <span className="text-base flex-shrink-0">🔥</span>
+          <div className="flex-1 min-w-0">
+            <div className="text-sm font-semibold" style={{ color: opp.color }}>
+              Opportunity: Pitch {opp.label}
+            </div>
+            <div className="text-xs text-[#8B949E] mt-0.5">{opp.pitch}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Contact Detail Page ───────────────────────────────────────────────────────
 interface ContactDetailProps { id: string; }
 
 export default function ContactDetailPage({ id }: ContactDetailProps) {
@@ -581,6 +679,9 @@ export default function ContactDetailPage({ id }: ContactDetailProps) {
         </TabsList>
 
         <TabsContent value="policies">
+          {/* ── Cross-Sell Engine ── */}
+          <CrossSellEngine policies={policies ?? []} />
+
           <div className="flex justify-end mb-3">
             <Button onClick={() => setAddPolicyOpen(true)} size="sm" className="bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold" data-testid="button-add-policy">
               <Plus className="h-4 w-4 mr-1" />
