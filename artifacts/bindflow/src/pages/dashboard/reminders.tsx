@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { format, parseISO, isPast, isToday, isTomorrow } from "date-fns";
+import type { Reminder } from "@/types/database";
 
 const reminderSchema = z.object({
   title: z.string().min(1, "Title required"),
@@ -24,6 +25,7 @@ const reminderSchema = z.object({
   reminder_type: z.string().default("manual"),
 });
 type ReminderForm = z.infer<typeof reminderSchema>;
+type ReminderRow = Reminder & { contacts?: { full_name: string } | null };
 
 export default function RemindersPage() {
   const { organization, user } = useAuth();
@@ -38,7 +40,7 @@ export default function RemindersPage() {
     defaultValues: { title: "", notes: "", due_date: "", reminder_type: "manual" },
   });
 
-  const { data: reminders, isLoading } = useQuery({
+  const { data: reminders, isLoading } = useQuery<ReminderRow[]>({
     queryKey: ["reminders", orgId],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -55,8 +57,13 @@ export default function RemindersPage() {
   const addReminder = useMutation({
     mutationFn: async (data: ReminderForm) => {
       const { error } = await supabase.from("reminders").insert({
-        ...data, organization_id: orgId, created_by: user?.id, assigned_to: user?.id,
-      });
+        ...data,
+        organization_id: orgId,
+        created_by: user?.id,
+        assigned_to: user?.id,
+        status: "pending",
+        is_sent: false,
+      } as unknown as never);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -69,7 +76,7 @@ export default function RemindersPage() {
 
   const completeReminder = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("reminders").update({ status: "completed" }).eq("id", id);
+      const { error } = await supabase.from("reminders").update({ status: "completed" } as unknown as never).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reminders", orgId] }),

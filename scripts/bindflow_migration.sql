@@ -1,7 +1,7 @@
 -- ============================================================
 -- BindFlow CRM — Full Database Migration
 -- Run this in Supabase SQL Editor (Schema: public)
--- Safe to run on a fresh project; uses IF NOT EXISTS everywhere
+-- Safe to run on a fresh project
 -- ============================================================
 
 -- ── Extensions ───────────────────────────────────────────────
@@ -14,6 +14,11 @@ begin
   new.updated_at = now();
   return new;
 end;
+$$;
+
+create or replace function public.slugify_org_name(input_text text)
+returns text language sql immutable as $$
+  select lower(regexp_replace(regexp_replace(coalesce(input_text, ''), '[^a-zA-Z0-9]+', '-', 'g'), '(^-+|-+$)', '', 'g'));
 $$;
 
 -- ── Helper: generate a short, URL-safe referral code ─────────
@@ -227,7 +232,7 @@ create table if not exists public.reminders (
   notes           text,
   due_date        timestamptz not null,
   reminder_type   text default 'general',  -- 'renewal' | 'follow_up' | 'general'
-  status          text default 'pending',  -- 'pending' | 'done' | 'dismissed'
+  status          text default 'pending',  -- 'pending' | 'completed' | 'dismissed'
   is_sent         boolean default false,
   created_by      uuid references auth.users(id) on delete set null,
   created_at      timestamptz default now(),
@@ -322,6 +327,14 @@ returns boolean language sql security definer stable as $$
   );
 $$;
 
+create or replace function public.is_org_owner(org_id uuid)
+returns boolean language sql security definer stable as $$
+  select exists (
+    select 1 from public.organizations
+    where id = org_id and owner_id = auth.uid()
+  );
+$$;
+
 -- ── organizations ────────────────────────────────────────────
 drop policy if exists "orgs: members can read"  on public.organizations;
 drop policy if exists "orgs: owner can insert"  on public.organizations;
@@ -350,12 +363,7 @@ create policy "members: org members can read"  on public.organization_members
   for select using (public.is_org_member(organization_id));
 
 create policy "members: org owners can manage" on public.organization_members
-  for all using (
-    exists (
-      select 1 from public.organizations
-      where id = organization_id and owner_id = auth.uid()
-    )
-  );
+  for all using (public.is_org_owner(organization_id));
 
 -- ── Generic org-scoped policy factory ────────────────────────
 -- (pipeline_stages, contacts, policies, deals, activities, reminders, tags, referrals, email_templates)
@@ -426,6 +434,7 @@ returns trigger language plpgsql security definer as $$
 declare
   org_id   uuid;
   org_slug text;
+  base_name text;
 begin
   -- Create profile
   insert into public.profiles (id, full_name, avatar_url)
@@ -437,7 +446,11 @@ begin
   on conflict (id) do nothing;
 
   -- Create org (slug = email prefix, deduplicated)
-  org_slug := lower(regexp_replace(split_part(new.email, '@', 1), '[^a-z0-9]', '-', 'g'));
+  base_name := coalesce(new.raw_user_meta_data->>'agency_name', split_part(new.email, '@', 1) || ' Agency');
+  org_slug := public.slugify_org_name(base_name);
+  if org_slug = '' then
+    org_slug := substr(replace(new.id::text, '-', ''), 1, 12);
+  end if;
 
   -- ensure slug uniqueness
   if exists (select 1 from public.organizations where slug = org_slug) then
@@ -446,7 +459,7 @@ begin
 
   insert into public.organizations (name, slug, owner_id, trial_ends_at)
   values (
-    coalesce(new.raw_user_meta_data->>'agency_name', split_part(new.email, '@', 1) || ' Agency'),
+    base_name,
     org_slug,
     new.id,
     now() + interval '14 days'
@@ -462,10 +475,10 @@ begin
 
   -- Seed default pipeline stages
   insert into public.pipeline_stages (organization_id, name, color, position, is_default) values
-    (org_id, 'Lead',         '#8B949E', 0, true),
-    (org_id, 'Quoted',       '#00B4D8', 1, false),
-    (org_id, 'Follow-Up',   '#F0B429', 2, false),
-    (org_id, 'Bound',        '#00E5A0', 3, false),
+    (org_id, 'Lead', '#8B949E', 0, true),
+    (org_id, 'Quoted', '#00B4D8', 1, false),
+    (org_id, 'Follow-Up', '#F0B429', 2, false),
+    (org_id, 'Bound', '#00E5A0', 3, false),
     (org_id, 'Renewal Due', '#F85149', 4, false);
 
   return new;
