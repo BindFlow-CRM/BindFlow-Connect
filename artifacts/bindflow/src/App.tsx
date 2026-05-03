@@ -41,100 +41,100 @@ import LandingPage from "@/pages/landing";
 function Router() {
   return (
     <Switch>
-      {/* Landing */}
+      {/* Landing - Ruta raíz dentro de /app */}
       <Route path="/" component={LandingPage} />
 
-      {/* Auth */}
-      <Route path="/app/login" component={LoginPage} />
-      <Route path="/app/register" component={RegisterPage} />
-      <Route path="/app/forgot-password" component={ForgotPasswordPage} />
+      {/* Auth - Rutas limpias (la base /app ya se añade automáticamente) */}
+      <Route path="/login" component={LoginPage} />
+      <Route path="/register" component={RegisterPage} />
+      <Route path="/forgot-password" component={ForgotPasswordPage} />
 
       {/* Dashboard (protected) */}
-      <Route path="/app/dashboard">
+      <Route path="/dashboard">
         {() => (
           <DashboardLayout>
             <DashboardHome />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/pipeline">
+      <Route path="/pipeline">
         {() => (
           <DashboardLayout>
             <PipelinePage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/contacts">
+      <Route path="/contacts">
         {() => (
           <DashboardLayout>
             <ContactsPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/contacts/:id">
+      <Route path="/contacts/:id">
         {(params) => (
           <DashboardLayout>
             <ContactDetailPage id={params.id ?? ""} />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/calendar">
+      <Route path="/calendar">
         {() => (
           <DashboardLayout>
             <CalendarPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/reminders">
+      <Route path="/reminders">
         {() => (
           <DashboardLayout>
             <RemindersPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/referrals">
+      <Route path="/referrals">
         {() => (
           <DashboardLayout>
             <ReferralsPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/templates">
+      <Route path="/templates">
         {() => (
           <DashboardLayout>
             <TemplatesPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/renewal-radar">
+      <Route path="/renewal-radar">
         {() => (
           <DashboardLayout>
             <RenewalRadarPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/settings">
+      <Route path="/settings">
         {() => (
           <DashboardLayout>
             <SettingsPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/settings/team">
+      <Route path="/settings/team">
         {() => (
           <DashboardLayout>
             <TeamSettingsPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/settings/billing">
+      <Route path="/settings/billing">
         {() => (
           <DashboardLayout>
             <BillingPage />
           </DashboardLayout>
         )}
       </Route>
-      <Route path="/app/admin-panel">
+      <Route path="/admin-panel">
         {() => (
           <DashboardLayout>
             <AdminPanelPage />
@@ -152,7 +152,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
-          <WouterRouter base={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/app`}>
+          {/* Configuración de base /app para todas las rutas de arriba */}
+          <WouterRouter base="/app">
             <Router />
           </WouterRouter>
           <Toaster />
