@@ -31,7 +31,16 @@ begin
   loop
     -- 8 random base64 chars, URL-safe
     code := replace(replace(encode(gen_random_bytes(6), 'base64'), '/', '-'), '+', '_');
-    select exists(select 1 from public.organizations where referral_code = code) into exists_already;
+    select exists(
+      select 1
+      from information_schema.columns
+      where table_schema = 'public'
+        and table_name = 'organizations'
+        and column_name = 'referral_code'
+    ) into exists_already;
+    if exists_already then
+      select exists(select 1 from public.organizations where referral_code = code) into exists_already;
+    end if;
     exit when not exists_already;
   end loop;
   return code;
