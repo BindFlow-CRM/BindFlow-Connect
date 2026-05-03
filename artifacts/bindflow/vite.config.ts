@@ -4,12 +4,13 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// 1. Valores por defecto seguros (vital para que Cloudflare Pages no crashee)
+// Puerto por defecto para desarrollo
 const port = Number(process.env.PORT) || 5173;
-const basePath = process.env.BASE_PATH || "/";
 
 export default defineConfig({
-  base: basePath,
+  // Mantenemos la base en "/" para que la landing cargue bien,
+  // el router de React ya se encarga del subpath "/app"
+  base: "/",
   plugins: [
     react(),
     tailwindcss(),
@@ -31,17 +32,24 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
-      "@assets": path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
+      "@assets": path.resolve(
+        import.meta.dirname,
+        "..",
+        "..",
+        "attached_assets",
+      ),
     },
     dedupe: ["react", "react-dom"],
   },
   root: path.resolve(import.meta.dirname),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    // IMPORTANTE: Esta ruta es la que lee Cloudflare
+    outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        landing: path.resolve(import.meta.dirname, "index.html"),
+        // Definimos los dos puntos de entrada
+        main: path.resolve(import.meta.dirname, "index.html"),
         app: path.resolve(import.meta.dirname, "app/index.html"),
       },
     },
@@ -54,10 +62,5 @@ export default defineConfig({
     fs: {
       strict: true,
     },
-  },
-  preview: {
-    port,
-    host: "0.0.0.0",
-    allowedHosts: true,
   },
 });
