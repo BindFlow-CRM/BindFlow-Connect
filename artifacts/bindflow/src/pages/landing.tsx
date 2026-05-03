@@ -13,7 +13,6 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import heroMockup from "@assets/capture_1777807709083.png";
 
 const logoUrl =
   "https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE";
@@ -25,6 +24,9 @@ const featureCards = [
   { icon: ShieldCheck, title: "Secure by design", desc: "Built with a privacy-first, agency-ready workflow." },
   { icon: Crown, title: "VIP client experience", desc: "Deliver a premium journey that feels effortless to every customer." },
   { icon: Sparkles, title: "Premium automation", desc: "Reduce admin work and keep your book moving forward." },
+  { icon: Sparkles, title: "Referral engine", desc: "Turn happy clients into warm introductions and recurring growth." },
+  { icon: Bell, title: "Smart reminders", desc: "Never lose track of follow-ups, quotes, or renewal windows." },
+  { icon: Users, title: "Team collaboration", desc: "Keep every member aligned with the same shared book of business." },
 ];
 
 const valuePillars = [
@@ -118,8 +120,27 @@ export default function LandingPage() {
 
           <div className="relative">
             <div className="pointer-events-none absolute -top-20 -right-20 h-[500px] w-[500px] rounded-full bg-[#00E5A0]/20 blur-[120px]" />
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#161B22]/80 p-4 shadow-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#00E5A0]/50 hover:shadow-[0_8px_30px_rgb(0,229,160,0.12)]">
-              <img src={heroMockup} alt="BindFlow dashboard mockup" className="w-full rounded-xl object-cover" />
+            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#161B22]/80 p-6 shadow-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#00E5A0]/50 hover:shadow-[0_8px_30px_rgb(0,229,160,0.12)]">
+              <div className="grid gap-4 md:grid-cols-3">
+                {[
+                  ["Pipeline", "Clear stages, clean handoffs."],
+                  ["Renewals", "Surface priorities before they slip."],
+                  ["Referrals", "Capture growth from every happy client."],
+                ].map(([title, desc], index) => (
+                  <div key={title} className={`rounded-2xl border border-white/5 bg-gradient-to-b from-[#161B22] to-[#0D1117] p-4 ${index === 1 ? "md:translate-y-8" : ""}`}>
+                    <div className="mb-3 flex items-center justify-between">
+                      <span className="text-xs font-semibold tracking-tight text-[#00E5A0]">{title}</span>
+                      <span className="h-2 w-2 rounded-full bg-[#00E5A0]" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-2 w-4/5 rounded-full bg-white/10" />
+                      <div className="h-2 w-3/5 rounded-full bg-white/10" />
+                      <div className="h-24 rounded-xl border border-white/5 bg-white/5" />
+                    </div>
+                    <p className="mt-3 text-xs leading-5 text-[#8B949E]">{desc}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -178,6 +199,7 @@ export default function LandingPage() {
                 ))}
               </div>
               <div className="mt-6 text-sm text-[#8B949E]">No hidden fees. Built for serious agencies.</div>
+              <div className="mt-3 text-sm text-[#00E5A0]">15% off with annual billing.</div>
             </div>
             <div className="relative overflow-hidden rounded-3xl border border-[#00E5A0]/30 bg-[#161B22]/80 p-8 shadow-[0_0_60px_rgba(0,229,160,0.12)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,229,160,0.12)]">
               <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[radial-gradient(circle_at_top,_rgba(0,229,160,0.18),_transparent_70%)]" />
@@ -213,6 +235,13 @@ export default function LandingPage() {
               <Link href="/register">
                 <Button className="h-12 bg-gradient-to-r from-[#00E5A0] to-[#00C98A] px-8 text-[#0D1117] shadow-[0_0_20px_rgba(0,229,160,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(0,229,160,0.5)]">Start Free Trial</Button>
               </Link>
+            </div>
+            <div className="mt-4 flex justify-center gap-3 text-xs text-[#8B949E]">
+              <span>Fast setup</span>
+              <span>•</span>
+              <span>No card required</span>
+              <span>•</span>
+              <span>Cancel anytime</span>
             </div>
           </div>
         </section>
