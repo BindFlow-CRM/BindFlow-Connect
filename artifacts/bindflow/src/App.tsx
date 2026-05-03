@@ -36,14 +36,10 @@ import BillingPage from "@/pages/dashboard/settings/billing";
 import AdminPanelPage from "@/pages/dashboard/admin-panel";
 
 // Landing page
-import LandingPage from "@/pages/landing";
 
 function Router() {
   return (
     <Switch>
-      {/* Landing - Ruta raíz dentro de /app */}
-      <Route path="/" component={LandingPage} />
-
       {/* Auth - Rutas limpias (la base /app ya se añade automáticamente) */}
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
