@@ -1,0 +1,49 @@
+Quiero rediseñar la Landing Page (app/page.tsx) para que pase de ser un diseño básico a una experiencia SaaS 'VIP', ultra-premium y de altísima conversión, inspirada en webs como Linear o Vercel.
+
+Aplica estos cambios radicales usando Tailwind CSS avanzado:
+
+1. Reglas Globales de Estilo (Premium Feel):
+
+Usa Glassmorphism: En lugar de fondos sólidos en las cards, usa bg-[#161B22]/60 backdrop-blur-xl border border-white/5.
+
+Añade transiciones suaves a TODAS las cards y botones (transition-all duration-300 hover:-translate-y-1 hover:border-[#00E5A0]/50 hover:shadow-[0_8px_30px_rgb(0,229,160,0.12)]).
+
+Usa fuentes más ajustadas (tracking-tight) para los titulares.
+
+2. Navbar (Elegante y Sticky):
+
+Haz el navbar fijo con efecto cristal: sticky top-0 z-50 bg-[#0D1117]/80 backdrop-blur-md border-b border-white/5.
+
+Logo: Aumenta considerablemente el tamaño del logo (w-32 o w-40). Que se vea claro y orgulloso.
+
+Botón 'Start Free Trial': Usa un gradiente sutil y glow: bg-gradient-to-r from-[#00E5A0] to-[#00C98A] text-[#0D1117] shadow-[0_0_20px_rgba(0,229,160,0.3)] hover:shadow-[0_0_30px_rgba(0,229,160,0.5)].
+
+3. Hero Section (El gancho principal):
+
+Titular: Usa texto con gradiente para que se vea premium. Reemplaza el color sólido por: text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400. Haz la fuente más grande y pesada (text-6xl md:text-8xl font-bold tracking-tighter).
+
+Fondo: Añade un 'Glow Orb' detrás de la interfaz de la derecha. Crea un div absoluto desenfocado: absolute -top-20 -right-20 w-[500px] h-[500px] bg-[#00E5A0]/20 blur-[120px] rounded-full pointer-events-none.
+
+Mockup UI (Derecha): Mejora el diseño de la 'falsa UI'. Que parezca un dashboard de verdad flotando. Usa border border-white/10 shadow-2xl rounded-xl bg-[#161B22]/80 backdrop-blur-md.
+
+4. What is BindFlow? & Features (Ajuste de Grid):
+
+Arregla los espacios en blanco. Haz que la sección 'What is BindFlow' esté centrada, con el texto arriba y un grid de 3 o 4 columnas debajo, de forma simétrica.
+
+En cada card de feature, añade un ícono de Lucide grande (ej: w-10 h-10), coloreado con el primario (text-[#00E5A0]), dentro de un contenedor con fondo sutil (bg-[#00E5A0]/10 rounded-lg p-3).
+
+5. Pricing Section (Maximizar Conversión):
+
+Centra toda la sección. Pon un título: 'Simple, transparent pricing'.
+
+La tarjeta de pricing debe ser la "estrella". Ponle un borde que brille: border border-[#00E5A0]/30 relative overflow-hidden.
+
+Añade un reflejo interno a la tarjeta: un gradiente radial sutil en la parte superior dentro de la tarjeta.
+
+El botón CTA dentro del pricing debe ser masivo, invitando al clic inmediato.
+
+6. FAQ & Bottom CTA:
+
+En las FAQ, usa border-b border-white/10 para separar preguntas. Al hacer hover, que el texto se vuelva blanco brillante.
+
+En el Bottom CTA, añade otro brillo radial de fondo centrado (bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00E5A0]/15 via-[#0D1117] to-[#0D1117]) para enmarcar el botón final de 'Start Free Trial'.
