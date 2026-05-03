@@ -9,7 +9,7 @@ import { z } from "zod";
 import {
   ArrowLeft, MessageCircle, Phone, Mail, MapPin, Tag,
   Plus, FileText, Phone as PhoneIcon, CalendarDays,
-  Send, ChevronDown, Check, Edit3,
+  Send, ChevronDown, Check, Edit3, Printer, Mic, MicOff, Square,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -347,6 +347,42 @@ export default function ContactDetailPage({ id }: ContactDetailProps) {
   const [addNoteOpen, setAddNoteOpen] = useState(false);
   const [addPolicyOpen, setAddPolicyOpen] = useState(false);
   const [waPolicy, setWaPolicy] = useState<Policy | null | "header">(null);
+  const [isDictating, setIsDictating] = useState(false);
+  const recognitionRef = useState<SpeechRecognition | null>(null);
+
+  const SpeechRecognitionAPI =
+    typeof window !== "undefined"
+      ? (window.SpeechRecognition ?? (window as unknown as { webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition ?? null)
+      : null;
+  const dictationSupported = !!SpeechRecognitionAPI;
+
+  const startDictation = () => {
+    if (!SpeechRecognitionAPI || isDictating) return;
+    const rec = new SpeechRecognitionAPI();
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.lang = "en-US";
+    let finalTranscript = noteForm.getValues("content");
+    rec.onresult = (e: SpeechRecognitionEvent) => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const t = e.results[i][0].transcript;
+        if (e.results[i].isFinal) { finalTranscript += (finalTranscript ? " " : "") + t; }
+        else { interim = t; }
+      }
+      noteForm.setValue("content", finalTranscript + (interim ? ` ${interim}` : ""), { shouldDirty: true });
+    };
+    rec.onend = () => { setIsDictating(false); recognitionRef[0] = null; };
+    rec.onerror = () => { setIsDictating(false); recognitionRef[0] = null; };
+    rec.start();
+    recognitionRef[0] = rec;
+    setIsDictating(true);
+  };
+
+  const stopDictation = () => {
+    recognitionRef[0]?.stop();
+    setIsDictating(false);
+  };
 
   const noteForm = useForm<NoteForm>({
     resolver: zodResolver(noteSchema),
@@ -506,6 +542,15 @@ export default function ContactDetailPage({ id }: ContactDetailProps) {
                 {contact.lead_source}
               </Badge>
             )}
+            <button
+              onClick={() => window.print()}
+              className="no-print flex items-center gap-2 px-3 py-2 rounded-lg border border-[#30363D] text-[#8B949E] hover:border-[#00E5A0] hover:text-[#00E5A0] transition-colors text-sm font-medium"
+              data-testid="button-print-summary"
+              title="Print client summary"
+            >
+              <Printer className="h-4 w-4" />
+              Print Summary
+            </button>
             {contact.phone && (
               <button
                 onClick={() => setWaPolicy("header")}
@@ -633,12 +678,44 @@ export default function ContactDetailPage({ id }: ContactDetailProps) {
               </Select>
             </div>
             <div>
-              <Label className="text-sm text-[#E6EDF3] mb-1.5 block">Notes</Label>
-              <Textarea {...noteForm.register("content")} placeholder="What happened?" className="bg-[#0D1117] border-[#30363D] text-[#E6EDF3] placeholder:text-[#484F58] focus:border-[#00E5A0] min-h-[80px]" data-testid="textarea-activity-content" />
+              <div className="flex items-center justify-between mb-1.5">
+                <Label className="text-sm text-[#E6EDF3]">Notes</Label>
+                {dictationSupported && (
+                  <button
+                    type="button"
+                    onClick={isDictating ? stopDictation : startDictation}
+                    title={isDictating ? "Stop dictation" : "Dictate note (voice)"}
+                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
+                      isDictating
+                        ? "bg-[#F8514915] border-[#F85149] text-[#F85149] animate-pulse"
+                        : "border-[#30363D] text-[#8B949E] hover:border-[#00B4D8] hover:text-[#00B4D8]"
+                    }`}
+                    data-testid="button-dictate"
+                  >
+                    {isDictating
+                      ? <><Square className="h-3 w-3" />Stop</>
+                      : <><Mic className="h-3 w-3" />Dictate</>}
+                  </button>
+                )}
+              </div>
+              {isDictating && (
+                <div className="flex items-center gap-2 mb-2 px-3 py-1.5 rounded-lg bg-[#F8514910] border border-[#F8514930]">
+                  <MicOff className="h-3 w-3 text-[#F85149] animate-pulse flex-shrink-0" />
+                  <span className="text-xs text-[#F85149]">Listening… speak now. Tap Stop when done.</span>
+                </div>
+              )}
+              <Textarea
+                {...noteForm.register("content")}
+                placeholder={isDictating ? "Transcribing your voice…" : "What happened?"}
+                className={`bg-[#0D1117] border-[#30363D] text-[#E6EDF3] placeholder:text-[#484F58] min-h-[80px] transition-colors ${
+                  isDictating ? "border-[#F85149] focus:border-[#F85149]" : "focus:border-[#00E5A0]"
+                }`}
+                data-testid="textarea-activity-content"
+              />
               {noteForm.formState.errors.content && <p className="text-[#F85149] text-xs mt-1">{noteForm.formState.errors.content.message}</p>}
             </div>
             <div className="flex gap-3">
-              <Button type="button" variant="outline" onClick={() => setAddNoteOpen(false)} className="flex-1 border-[#30363D] text-[#E6EDF3] h-10">Cancel</Button>
+              <Button type="button" variant="outline" onClick={() => { setAddNoteOpen(false); stopDictation(); }} className="flex-1 border-[#30363D] text-[#E6EDF3] h-10">Cancel</Button>
               <Button type="submit" disabled={addNote.isPending} className="flex-1 bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold h-10">Log</Button>
             </div>
           </form>
@@ -698,6 +775,82 @@ export default function ContactDetailPage({ id }: ContactDetailProps) {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* ── Print-only summary (hidden on screen, shown on print) ── */}
+      <div className="print-only hidden print-summary" aria-hidden="true">
+        <div className="print-header">
+          <div className="print-avatar">
+            {contact.full_name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2)}
+          </div>
+          <div>
+            <h1>{contact.full_name}</h1>
+            {contact.email && <p>✉ {contact.email}</p>}
+            {contact.phone && <p>📞 {contact.phone}</p>}
+            {(contact.city || contact.state) && <p>📍 {[contact.city, contact.state].filter(Boolean).join(", ")}</p>}
+            {contact.lead_source && <p>Source: {contact.lead_source}</p>}
+          </div>
+        </div>
+
+        {policies && policies.length > 0 && (
+          <>
+            <h2>Policies ({policies.length})</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Carrier</th>
+                  <th>Line</th>
+                  <th>Policy #</th>
+                  <th>Premium / yr</th>
+                  <th>Status</th>
+                  <th>Renewal Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {policies.map((p) => (
+                  <tr key={p.id}>
+                    <td>{p.insurance_company}</td>
+                    <td style={{ textTransform: "capitalize" }}>{p.line_of_insurance ?? "—"}</td>
+                    <td>{p.policy_number ?? "—"}</td>
+                    <td>{p.annual_premium ? `$${p.annual_premium.toLocaleString()}` : "—"}</td>
+                    <td style={{ textTransform: "capitalize" }}>{p.policy_status ?? "—"}</td>
+                    <td>{p.renewal_date ? format(parseISO(p.renewal_date), "MMM d, yyyy") : "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
+
+        {activities && activities.length > 0 && (
+          <>
+            <h2>Activity Log ({activities.length})</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {activities.map((a) => (
+                  <tr key={a.id}>
+                    <td style={{ whiteSpace: "nowrap" }}>{a.created_at ? format(parseISO(a.created_at), "MMM d, yyyy h:mm a") : "—"}</td>
+                    <td style={{ textTransform: "capitalize" }}>{a.type}</td>
+                    <td>{a.content}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
+
+        <div className="print-meta">
+          Printed from BindFlow · {format(new Date(), "MMMM d, yyyy 'at' h:mm a")}
+          {profile?.full_name && ` · Agent: ${profile.full_name}`}
+          {profile?.agency_name && ` · ${profile.agency_name}`}
+        </div>
+      </div>
 
       {/* WhatsApp Composer */}
       {contact && (

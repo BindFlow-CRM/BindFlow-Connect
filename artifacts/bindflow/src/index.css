@@ -335,3 +335,66 @@
   .stage-active   { border-left-color: #00C98A; }
   .stage-renewal  { border-left-color: #F85149; }
 }
+
+/* ─── Print styles ───────────────────────────────────────────────────── */
+@media print {
+  /* Hide everything that isn't the print summary */
+  aside,
+  nav,
+  .no-print,
+  [data-testid="button-back"],
+  [data-testid="button-add-policy"],
+  [data-testid="button-add-activity"],
+  [data-testid="button-whatsapp-header"],
+  [role="tablist"] {
+    display: none !important;
+  }
+
+  /* Reset dark-mode backgrounds for paper */
+  html, body {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    color-scheme: light !important;
+    font-size: 11pt;
+  }
+
+  main {
+    overflow: visible !important;
+  }
+
+  /* Show the hidden print summary block */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Hide the on-screen tabs content — print summary replaces it */
+  [role="tabpanel"],
+  [data-radix-collection-item] {
+    display: none !important;
+  }
+
+  /* Print summary styles */
+  .print-summary {
+    display: block !important;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+  }
+
+  .print-summary h1 { font-size: 20pt; font-weight: 700; margin-bottom: 4pt; color: #000; }
+  .print-summary h2 { font-size: 13pt; font-weight: 600; margin: 16pt 0 6pt; color: #000; border-bottom: 1pt solid #d0d7de; padding-bottom: 4pt; }
+  .print-summary p  { font-size: 10pt; line-height: 1.5; color: #333; margin: 2pt 0; }
+
+  .print-summary table { width: 100%; border-collapse: collapse; margin-top: 6pt; font-size: 9.5pt; }
+  .print-summary th   { background: #f6f8fa; font-weight: 600; text-align: left; padding: 5pt 8pt; border: 0.5pt solid #d0d7de; color: #1a1a1a; }
+  .print-summary td   { padding: 5pt 8pt; border: 0.5pt solid #d0d7de; color: #333; }
+  .print-summary tr:nth-child(even) td { background: #f9fafb; }
+
+  .print-summary .print-header { display: flex; align-items: center; gap: 12pt; margin-bottom: 12pt; padding-bottom: 10pt; border-bottom: 2pt solid #00E5A0; }
+  .print-summary .print-avatar { width: 44pt; height: 44pt; border-radius: 50%; background: #e6faf4; border: 1.5pt solid #00E5A0; display: flex; align-items: center; justify-content: center; font-size: 16pt; font-weight: 700; color: #00a373; }
+  .print-summary .print-meta   { font-size: 9pt; color: #57606a; margin-top: 14pt; border-top: 0.5pt solid #d0d7de; padding-top: 8pt; }
+
+  @page {
+    margin: 15mm 20mm;
+  }
+}
