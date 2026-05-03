@@ -18,15 +18,15 @@ const logoUrl =
   "https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE";
 
 const featureCards = [
-  { icon: TrendingUp, title: "Visual sales flow", desc: "See every lead, policy, and renewal in one clean command center." },
-  { icon: Bell, title: "Renewal intelligence", desc: "Get proactive alerts before retention becomes an issue." },
-  { icon: Users, title: "Client 360", desc: "One record for contacts, policies, notes, and next steps." },
-  { icon: ShieldCheck, title: "Secure by design", desc: "Built with a privacy-first, agency-ready workflow." },
-  { icon: Crown, title: "VIP client experience", desc: "Deliver a premium journey that feels effortless to every customer." },
-  { icon: Sparkles, title: "Premium automation", desc: "Reduce admin work and keep your book moving forward." },
-  { icon: Sparkles, title: "Referral engine", desc: "Turn happy clients into warm introductions and recurring growth." },
-  { icon: Bell, title: "Smart reminders", desc: "Never lose track of follow-ups, quotes, or renewal windows." },
-  { icon: Users, title: "Team collaboration", desc: "Keep every member aligned with the same shared book of business." },
+  { icon: TrendingUp, title: "Pipeline visibility", desc: "Track every opportunity from first touch to close with a clear visual flow." },
+  { icon: Bell, title: "Renewal intelligence", desc: "Stay ahead of churn with alerts, reminders, and renewal timelines." },
+  { icon: Users, title: "Client 360", desc: "Unify contacts, notes, policies, and follow-ups in one profile." },
+  { icon: ShieldCheck, title: "Secure by design", desc: "Built for agencies that need privacy, stability, and control." },
+  { icon: Crown, title: "VIP client experience", desc: "Present a premium workspace that reflects your brand." },
+  { icon: Sparkles, title: "Automation engine", desc: "Reduce manual tasks and keep your team moving faster." },
+  { icon: Sparkles, title: "Referral growth", desc: "Capture referrals and turn happy clients into recurring revenue." },
+  { icon: Bell, title: "Smart reminders", desc: "Never miss a quote, follow-up, or policy review again." },
+  { icon: Users, title: "Team collaboration", desc: "Keep every producer, assistant, and owner aligned." },
 ];
 
 const valuePillars = [
@@ -91,7 +91,7 @@ export default function LandingPage() {
         <section className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
           <div>
             <Badge className="mb-6 border-[#00E5A030] bg-[#00E5A015] px-4 py-1 text-[#00E5A0]">VIP CRM for Independent Agents</Badge>
-            <h1 className="max-w-2xl text-5xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 md:text-7xl">
+            <h1 className="max-w-2xl text-4xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 md:text-6xl">
               Sell better.
               <br />
               Retain longer.
@@ -115,6 +115,7 @@ export default function LandingPage() {
               <span className="rounded-full border border-white/5 bg-white/5 px-3 py-1">No credit card</span>
               <span className="rounded-full border border-white/5 bg-white/5 px-3 py-1">Premium UI</span>
               <span className="rounded-full border border-white/5 bg-white/5 px-3 py-1">Built for retention</span>
+              <span className="rounded-full border border-white/5 bg-white/5 px-3 py-1">Referral engine</span>
             </div>
           </div>
 
@@ -167,6 +168,7 @@ export default function LandingPage() {
         <section className="mx-auto max-w-7xl px-6 py-20">
           <div className="mb-10 text-center">
             <h2 className="text-4xl font-bold tracking-tighter">Everything you need to feel premium</h2>
+            <p className="mt-3 text-[#8B949E]">Every major capability of BindFlow, organized for clarity and trust.</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {featureCards.map((f) => {
@@ -200,7 +202,7 @@ export default function LandingPage() {
               </div>
               <div className="mt-6 text-sm text-[#8B949E]">No hidden fees. Built for serious agencies.</div>
               <div className="mt-5 rounded-2xl border border-white/5 bg-white/5 px-4 py-3 text-sm text-[#8B949E]">
-                Pay annually and get <span className="font-semibold text-[#00E5A0]">15% off</span> automatically.
+                <span className="font-semibold text-[#E6EDF3]">Annual billing</span> saves you <span className="font-semibold text-[#00E5A0]">15%</span> automatically.
               </div>
             </div>
             <div className="relative overflow-hidden rounded-3xl border border-[#00E5A0]/30 bg-[#161B22]/80 p-8 shadow-[0_0_60px_rgba(0,229,160,0.12)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,229,160,0.12)]">
@@ -244,6 +246,8 @@ export default function LandingPage() {
               <span>No card required</span>
               <span>•</span>
               <span>Cancel anytime</span>
+              <span>•</span>
+              <span>Referral tracking included</span>
             </div>
           </div>
         </section>
