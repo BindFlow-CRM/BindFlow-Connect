@@ -4,17 +4,17 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// Puerto por defecto para desarrollo
+// Puerto por defecto para el entorno de Replit
 const port = Number(process.env.PORT) || 5173;
 
 export default defineConfig({
-  // Mantenemos la base en "/" para que la landing cargue bien,
-  // el router de React ya se encarga del subpath "/app"
+  // Mantenemos la base en la raíz
   base: "/",
   plugins: [
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),
+    // Plugins específicos de Replit (solo en desarrollo)
     ...(process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined
       ? [
@@ -31,6 +31,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+      // Configuración de alias para carpetas de componentes y assets
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(
         import.meta.dirname,
@@ -41,16 +42,18 @@ export default defineConfig({
     },
     dedupe: ["react", "react-dom"],
   },
+  // La raíz del proyecto es la carpeta actual (artifacts/bindflow)
   root: path.resolve(import.meta.dirname),
   build: {
-    // IMPORTANTE: Esta ruta es la que lee Cloudflare
+    // Carpeta de salida que Cloudflare debe leer
     outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        // Definimos los dos puntos de entrada
+        // "main" genera el index.html de la App de React
         main: path.resolve(import.meta.dirname, "index.html"),
-        app: path.resolve(import.meta.dirname, "app/index.html"),
+        // "home" genera el landing.html de la Landing Page[cite: 1]
+        home: path.resolve(import.meta.dirname, "landing.html"),
       },
     },
   },
