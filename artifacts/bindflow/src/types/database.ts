@@ -20,6 +20,9 @@ export interface Database {
           subscription_id: string | null;
           subscription_status: string | null;
           max_seats: number | null;
+          referred_by: string | null;
+          pending_credits: number | null;
+          paddle_customer_id: string | null;
           created_at: string | null;
           updated_at: string | null;
         };
@@ -33,6 +36,9 @@ export interface Database {
           subscription_id?: string | null;
           subscription_status?: string | null;
           max_seats?: number | null;
+          referred_by?: string | null;
+          pending_credits?: number | null;
+          paddle_customer_id?: string | null;
           created_at?: string | null;
           updated_at?: string | null;
         };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation, useSearch } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, CheckCircle } from "lucide-react";
+import { Loader2, CheckCircle, Gift } from "lucide-react";
 
 const US_STATES = ["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
 
@@ -29,6 +29,10 @@ type Step2Form = z.infer<typeof step2Schema>;
 
 export default function RegisterPage() {
   const [, setLocation] = useLocation();
+  const searchString = useSearch();
+  const params = new URLSearchParams(searchString);
+  const refOrgId = params.get("ref");
+
   const [step, setStep] = useState(1);
   const [step1Data, setStep1Data] = useState<Step1Form | null>(null);
   const [loading, setLoading] = useState(false);
@@ -63,11 +67,14 @@ export default function RegisterPage() {
       const userId = authData.user?.id;
       if (!userId) throw new Error("Failed to create user");
 
-      // 2. Create organization
+      // 2. Create organization — store referred_by if a ref was present in the URL
       const slug = data.agency_name.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-") + "-" + Date.now();
+      const orgInsert: Record<string, unknown> = { name: data.agency_name, slug, owner_id: userId };
+      if (refOrgId) orgInsert.referred_by = refOrgId;
+
       const { data: org, error: orgError } = await supabase
         .from("organizations")
-        .insert({ name: data.agency_name, slug, owner_id: userId })
+        .insert(orgInsert)
         .select()
         .single();
       if (orgError) throw orgError;
@@ -142,6 +149,16 @@ export default function RegisterPage() {
             Step {step} of 2 — {step === 1 ? "Your credentials" : "Agency details"}
           </p>
         </div>
+
+        {/* Referral notice */}
+        {refOrgId && (
+          <div className="flex items-center gap-2.5 bg-[#00E5A015] border border-[#00E5A030] rounded-xl px-4 py-3 mb-4">
+            <Gift className="h-4 w-4 text-[#00E5A0] flex-shrink-0" />
+            <p className="text-xs text-[#00E5A0]">
+              You were referred by a BindFlow agent — your referrer will earn a free month when you subscribe!
+            </p>
+          </div>
+        )}
 
         {/* Step indicator */}
         <div className="flex gap-2 mb-6">
