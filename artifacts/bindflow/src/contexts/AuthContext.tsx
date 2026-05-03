@@ -72,7 +72,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
@@ -95,12 +97,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut();
     setProfile(null);
     setOrganization(null);
+    // Forzamos la salida de la App de React hacia la Landing Page
+    window.location.href = "/";
   };
 
   return (
-    <AuthContext.Provider value={{
-      session, user, profile, organization, loading, signOut, refreshProfile, refreshOrganization
-    }}>
+    <AuthContext.Provider
+      value={{
+        session,
+        user,
+        profile,
+        organization,
+        loading,
+        signOut,
+        refreshProfile,
+        refreshOrganization,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
