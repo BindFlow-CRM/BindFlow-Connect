@@ -23,28 +23,8 @@ $$;
 
 -- ── Helper: generate a short, URL-safe referral code ─────────
 create or replace function public.generate_referral_code()
-returns text language plpgsql as $$
-declare
-  code text;
-  exists_already boolean;
-begin
-  loop
-    -- 8 random base64 chars, URL-safe
-    code := replace(replace(encode(gen_random_bytes(6), 'base64'), '/', '-'), '+', '_');
-    select exists(
-      select 1
-      from information_schema.columns
-      where table_schema = 'public'
-        and table_name = 'organizations'
-        and column_name = 'referral_code'
-    ) into exists_already;
-    if exists_already then
-      select exists(select 1 from public.organizations where referral_code = code) into exists_already;
-    end if;
-    exit when not exists_already;
-  end loop;
-  return code;
-end;
+returns text language sql as $$
+  select replace(replace(encode(gen_random_bytes(6), 'base64'), '/', '-'), '+', '_');
 $$;
 
 -- ============================================================
@@ -71,12 +51,23 @@ create table if not exists public.organizations (
 );
 
 create index if not exists organizations_owner_id_idx   on public.organizations(owner_id);
-create index if not exists organizations_referral_code_idx on public.organizations(referral_code);
 create index if not exists organizations_slug_idx        on public.organizations(slug);
 
 create or replace trigger organizations_updated_at
   before update on public.organizations
   for each row execute function public.set_updated_at();
+
+alter table public.organizations add column if not exists referred_by text;
+alter table public.organizations add column if not exists pending_credits int not null default 0;
+alter table public.organizations add column if not exists paddle_customer_id text;
+alter table public.organizations add column if not exists referral_code text;
+update public.organizations set referral_code = coalesce(referral_code, public.generate_referral_code()) where referral_code is null;
+alter table public.organizations alter column referral_code set default public.generate_referral_code();
+do $$ begin
+  alter table public.organizations add constraint organizations_referral_code_key unique (referral_code);
+exception when duplicate_object then null;
+end $$;
+create index if not exists organizations_referral_code_idx on public.organizations(referral_code);
 
 -- ── profiles ─────────────────────────────────────────────────
 create table if not exists public.profiles (
