@@ -1,21 +1,47 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import {
   ArrowRight,
   Bell,
   Check,
   Crown,
+  HeadphonesIcon,
+  Loader2,
   Menu,
   ShieldCheck,
   Sparkles,
   TrendingUp,
   Users,
+  X,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 const logoUrl =
   "https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE";
+
+const ISSUE_TYPES = [
+  "Cannot log in",
+  "Forgot password / no reset email",
+  "Account locked or suspended",
+  "Two-factor authentication issue",
+  "Page not loading or blank screen",
+  "Slow performance or timeouts",
+  "Feature not working as expected",
+  "Data not saving or disappearing",
+  "Billing or subscription problem",
+  "Referral link not working",
+  "Email notifications not arriving",
+  "Invitation or team access issue",
+  "Export or import problem",
+  "Integration or API issue",
+  "Other",
+];
 
 const featureCards = [
   { icon: TrendingUp, title: "Pipeline visibility", desc: "Track every opportunity from first touch to close with a clear visual flow." },
@@ -30,22 +56,10 @@ const featureCards = [
 ];
 
 const valuePillars = [
-  {
-    title: "More closes, less chaos",
-    desc: "A polished pipeline built for fast follow-up and cleaner handoffs.",
-  },
-  {
-    title: "Retention that feels effortless",
-    desc: "Renewal tracking, reminders, and context where your team actually works.",
-  },
-  {
-    title: "A brand clients trust",
-    desc: "A premium interface that makes your agency look sharper and more modern.",
-  },
-  {
-    title: "Growth that compounds",
-    desc: "Referrals, repeat business, and cross-sell opportunities in one place.",
-  },
+  { title: "More closes, less chaos", desc: "A polished pipeline built for fast follow-up and cleaner handoffs." },
+  { title: "Retention that feels effortless", desc: "Renewal tracking, reminders, and context where your team actually works." },
+  { title: "A brand clients trust", desc: "A premium interface that makes your agency look sharper and more modern." },
+  { title: "Growth that compounds", desc: "Referrals, repeat business, and cross-sell opportunities in one place." },
 ];
 
 const pricingFeatures = [
@@ -65,26 +79,214 @@ const faqs = [
   ["Do I need a credit card to start?", "No. You can start the trial without entering a card."],
 ];
 
+function SupportModal({ onClose }: { onClose: () => void }) {
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    issue_type: "",
+    subject: "",
+    description: "",
+  });
+
+  const set = (field: string, value: string) =>
+    setForm((prev) => ({ ...prev, [field]: value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.issue_type || !form.subject || !form.description) {
+      toast({ title: "Please fill in all required fields", variant: "destructive" });
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/support", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Failed to submit");
+      toast({ title: "Support request sent", description: "We'll get back to you shortly." });
+      onClose();
+    } catch {
+      toast({ title: "Failed to send request", description: "Please try again or email us directly.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-lg rounded-2xl border border-[#30363D] bg-[#161B22] shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-[#30363D]">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#00E5A0]/10">
+              <HeadphonesIcon className="h-4 w-4 text-[#00E5A0]" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-[#E6EDF3]">Contact Support</h2>
+              <p className="text-xs text-[#8B949E]">We'll get back to you as soon as possible</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-[#8B949E] hover:text-[#E6EDF3] transition-colors"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Label className="text-[#E6EDF3] text-sm mb-1.5 block">Full name <span className="text-[#F85149]">*</span></Label>
+              <Input
+                value={form.name}
+                onChange={(e) => set("name", e.target.value)}
+                placeholder="Jane Smith"
+                className="bg-[#0D1117] border-[#30363D] text-[#E6EDF3] placeholder:text-[#484F58] focus:border-[#00E5A0] h-10"
+              />
+            </div>
+            <div>
+              <Label className="text-[#E6EDF3] text-sm mb-1.5 block">Email <span className="text-[#F85149]">*</span></Label>
+              <Input
+                type="email"
+                value={form.email}
+                onChange={(e) => set("email", e.target.value)}
+                placeholder="jane@agency.com"
+                className="bg-[#0D1117] border-[#30363D] text-[#E6EDF3] placeholder:text-[#484F58] focus:border-[#00E5A0] h-10"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label className="text-[#E6EDF3] text-sm mb-1.5 block">Phone <span className="text-[#484F58] text-xs">(optional)</span></Label>
+            <Input
+              type="tel"
+              value={form.phone}
+              onChange={(e) => set("phone", e.target.value)}
+              placeholder="+1 (555) 000-0000"
+              className="bg-[#0D1117] border-[#30363D] text-[#E6EDF3] placeholder:text-[#484F58] focus:border-[#00E5A0] h-10"
+            />
+          </div>
+
+          <div>
+            <Label className="text-[#E6EDF3] text-sm mb-1.5 block">Issue type <span className="text-[#F85149]">*</span></Label>
+            <Select value={form.issue_type} onValueChange={(v) => set("issue_type", v)}>
+              <SelectTrigger className="bg-[#0D1117] border-[#30363D] text-[#E6EDF3] h-10 focus:border-[#00E5A0]">
+                <SelectValue placeholder="Select the type of problem…" />
+              </SelectTrigger>
+              <SelectContent className="bg-[#161B22] border-[#30363D] max-h-60">
+                {ISSUE_TYPES.map((t) => (
+                  <SelectItem key={t} value={t} className="text-[#E6EDF3] hover:bg-[#21262D] focus:bg-[#21262D]">
+                    {t}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label className="text-[#E6EDF3] text-sm mb-1.5 block">Subject <span className="text-[#F85149]">*</span></Label>
+            <Input
+              value={form.subject}
+              onChange={(e) => set("subject", e.target.value)}
+              placeholder="Brief description of the issue"
+              className="bg-[#0D1117] border-[#30363D] text-[#E6EDF3] placeholder:text-[#484F58] focus:border-[#00E5A0] h-10"
+            />
+          </div>
+
+          <div>
+            <Label className="text-[#E6EDF3] text-sm mb-1.5 block">
+              Description <span className="text-[#F85149]">*</span>
+            </Label>
+            <textarea
+              value={form.description}
+              onChange={(e) => set("description", e.target.value)}
+              placeholder="Please describe the issue in detail — steps to reproduce, what you expected, and what happened instead."
+              rows={4}
+              className="w-full rounded-md border border-[#30363D] bg-[#0D1117] px-3 py-2 text-sm text-[#E6EDF3] placeholder:text-[#484F58] focus:outline-none focus:border-[#00E5A0] resize-none transition-colors"
+            />
+          </div>
+
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-[#00E5A0] hover:bg-[#00C98A] text-[#0D1117] font-semibold h-11"
+          >
+            {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <HeadphonesIcon className="h-4 w-4 mr-2" />}
+            Send Support Request
+          </Button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 export default function LandingPage() {
+  const [supportOpen, setSupportOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="dark min-h-screen bg-[#0D1117] text-[#E6EDF3]">
+      {supportOpen && <SupportModal onClose={() => setSupportOpen(false)} />}
+
       <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0D1117]/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-3">
             <img src={logoUrl} alt="BindFlow" className="h-14 w-40 object-contain md:h-16 md:w-44" />
           </Link>
-          <div className="hidden items-center gap-3 md:flex">
+
+          <div className="hidden items-center gap-1 md:flex">
+            <a href="#features">
+              <Button variant="ghost" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors px-3">Features</Button>
+            </a>
+            <a href="#pricing">
+              <Button variant="ghost" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors px-3">Pricing</Button>
+            </a>
+            <Button
+              variant="ghost"
+              className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors px-3"
+              onClick={() => setSupportOpen(true)}
+            >
+              Support
+            </Button>
             <Link href="/login">
-              <Button variant="ghost" className="transition-all duration-300 hover:-translate-y-1 hover:text-[#E6EDF3]">Sign in</Button>
+              <Button variant="ghost" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors px-3">Login</Button>
             </Link>
+            <a href="https://www.youtube.com/@BindFlow" target="_blank" rel="noopener noreferrer">
+              <Button variant="ghost" className="text-sm text-[#8B949E] hover:text-[#E6EDF3] transition-colors px-3">Tutorial</Button>
+            </a>
             <Link href="/register">
-              <Button className="bg-gradient-to-r from-[#00E5A0] to-[#00C98A] text-[#0D1117] shadow-[0_0_20px_rgba(0,229,160,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(0,229,160,0.5)]">
+              <Button className="ml-2 bg-gradient-to-r from-[#00E5A0] to-[#00C98A] text-[#0D1117] shadow-[0_0_20px_rgba(0,229,160,0.3)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(0,229,160,0.5)] text-sm">
                 Start Free Trial
               </Button>
             </Link>
           </div>
-          <Button variant="ghost" className="text-[#E6EDF3] md:hidden"><Menu className="h-5 w-5" /></Button>
+
+          <button
+            className="text-[#E6EDF3] md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
+
+        {mobileMenuOpen && (
+          <div className="border-t border-white/5 bg-[#0D1117] px-6 py-4 flex flex-col gap-2 md:hidden">
+            <a href="#features" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-[#8B949E] hover:text-[#E6EDF3]">Features</a>
+            <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-[#8B949E] hover:text-[#E6EDF3]">Pricing</a>
+            <button onClick={() => { setSupportOpen(true); setMobileMenuOpen(false); }} className="py-2 text-sm text-[#8B949E] hover:text-[#E6EDF3] text-left">Support</button>
+            <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-[#8B949E] hover:text-[#E6EDF3]">Login</Link>
+            <a href="https://www.youtube.com/@BindFlow" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="py-2 text-sm text-[#8B949E] hover:text-[#E6EDF3]">Tutorial</a>
+            <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+              <Button className="w-full mt-2 bg-gradient-to-r from-[#00E5A0] to-[#00C98A] text-[#0D1117]">Start Free Trial</Button>
+            </Link>
+          </div>
+        )}
       </nav>
 
       <main>
@@ -165,7 +367,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-6 py-20">
+        <section id="features" className="mx-auto max-w-7xl px-6 py-20">
           <div className="mb-10 text-center">
             <h2 className="text-4xl font-bold tracking-tighter">Everything you need to feel premium</h2>
             <p className="mt-3 text-[#8B949E]">Every major capability of BindFlow, organized for clarity and trust.</p>
@@ -255,8 +457,14 @@ export default function LandingPage() {
 
       <footer className="border-t border-[#30363D] px-6 py-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-3"><img src={logoUrl} alt="BindFlow" className="h-18 w-18 rounded-full object-cover" /></div>
-          <div className="flex gap-5 text-sm text-[#8B949E]"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/contact">Contact</a></div>
+          <div className="flex items-center gap-3">
+            <img src={logoUrl} alt="BindFlow" className="h-10 w-32 object-contain" />
+          </div>
+          <div className="flex gap-5 text-sm text-[#8B949E]">
+            <a href="/privacy" className="hover:text-[#E6EDF3] transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-[#E6EDF3] transition-colors">Terms</a>
+            <button onClick={() => setSupportOpen(true)} className="hover:text-[#E6EDF3] transition-colors">Contact</button>
+          </div>
         </div>
       </footer>
     </div>

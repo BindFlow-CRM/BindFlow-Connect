@@ -33,6 +33,7 @@ import RenewalRadarPage from "@/pages/dashboard/renewal-radar";
 import SettingsPage from "@/pages/dashboard/settings/index";
 import TeamSettingsPage from "@/pages/dashboard/settings/team";
 import BillingPage from "@/pages/dashboard/settings/billing";
+import AdminPanelPage from "@/pages/dashboard/admin-panel";
 
 // Landing page
 import LandingPage from "@/pages/landing";
@@ -130,6 +131,13 @@ function Router() {
         {() => (
           <DashboardLayout>
             <BillingPage />
+          </DashboardLayout>
+        )}
+      </Route>
+      <Route path="/admin-panel">
+        {() => (
+          <DashboardLayout>
+            <AdminPanelPage />
           </DashboardLayout>
         )}
       </Route>

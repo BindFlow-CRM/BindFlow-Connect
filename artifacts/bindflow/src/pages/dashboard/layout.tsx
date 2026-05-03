@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard, Kanban, Users, CalendarDays, Bell,
-  GitBranch, Mail, Settings, LogOut, ChevronRight, Crosshair,
+  GitBranch, Mail, Settings, LogOut, ChevronRight, Crosshair, HeadphonesIcon,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { icon: GitBranch, label: "Referrals", href: "/referrals" },
   { icon: Mail, label: "Templates", href: "/templates" },
   { icon: Settings, label: "Settings", href: "/settings" },
+  { icon: HeadphonesIcon, label: "Admin Panel", href: "/admin-panel" },
 ];
 
 interface DashboardLayoutProps {
