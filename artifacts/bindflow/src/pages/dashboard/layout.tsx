@@ -4,13 +4,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard, Kanban, Users, CalendarDays, Bell,
-  GitBranch, Mail, Settings, LogOut, ChevronRight
+  GitBranch, Mail, Settings, LogOut, ChevronRight, Crosshair,
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: Kanban, label: "Pipeline", href: "/pipeline" },
   { icon: Users, label: "Contacts", href: "/contacts" },
+  { icon: Crosshair, label: "Renewal Radar", href: "/renewal-radar" },
   { icon: CalendarDays, label: "Calendar", href: "/calendar" },
   { icon: Bell, label: "Reminders", href: "/reminders" },
   { icon: GitBranch, label: "Referrals", href: "/referrals" },
@@ -65,7 +66,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="px-4 py-5 border-b border-[#30363D]">
           <div className="flex items-center gap-3">
             <img
-              src="https://mprcqzsffqdvowogaedf.supabase.co/storage/v1/object/sign/assets/logocuadrado-jpg512.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hMjI2YmI4ZS0yNzJjLTRkNjktYmZkNy0zOTc3OTU5Yjk2NTEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvbG9nb2N1YWRyYWRvLWpwZzUxMi5qcGVnIiwiaWF0IjoxNzc3NzIyMjExLCJleHAiOjMzMTMxMzcyMjIxMX0.LS3aj-1COT7OQ0l7m4NEGc-PFwFQx8-2WyxYACa0Yk8"
+              src="https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE"
               alt="BindFlow"
               className="w-8 h-8 rounded-lg object-cover flex-shrink-0"
             />

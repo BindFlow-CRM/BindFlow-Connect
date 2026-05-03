@@ -29,6 +29,7 @@ import CalendarPage from "@/pages/dashboard/calendar";
 import RemindersPage from "@/pages/dashboard/reminders";
 import ReferralsPage from "@/pages/dashboard/referrals";
 import TemplatesPage from "@/pages/dashboard/templates";
+import RenewalRadarPage from "@/pages/dashboard/renewal-radar";
 import SettingsPage from "@/pages/dashboard/settings/index";
 import TeamSettingsPage from "@/pages/dashboard/settings/team";
 import BillingPage from "@/pages/dashboard/settings/billing";
@@ -101,6 +102,13 @@ function Router() {
         {() => (
           <DashboardLayout>
             <TemplatesPage />
+          </DashboardLayout>
+        )}
+      </Route>
+      <Route path="/renewal-radar">
+        {() => (
+          <DashboardLayout>
+            <RenewalRadarPage />
           </DashboardLayout>
         )}
       </Route>
