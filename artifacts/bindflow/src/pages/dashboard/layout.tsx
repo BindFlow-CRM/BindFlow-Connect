@@ -2,23 +2,18 @@ import { useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import {
-  LayoutDashboard, Kanban, Users, CalendarDays, Bell,
-  GitBranch, Mail, Settings, LogOut, ChevronRight, Crosshair, HeadphonesIcon,
-} from "lucide-react";
+import { Bell, ChevronRight, Home, Kanban, Mail, Settings, Users, LogOut } from "lucide-react";
 
 const NAV_ITEMS = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+  { icon: Home, label: "Dashboard", href: "/dashboard" },
   { icon: Kanban, label: "Pipeline", href: "/pipeline" },
   { icon: Users, label: "Contacts", href: "/contacts" },
-  { icon: Crosshair, label: "Renewal Radar", href: "/renewal-radar" },
-  { icon: CalendarDays, label: "Calendar", href: "/calendar" },
-  { icon: Bell, label: "Reminders", href: "/reminders" },
-  { icon: GitBranch, label: "Referrals", href: "/referrals" },
   { icon: Mail, label: "Templates", href: "/templates" },
   { icon: Settings, label: "Settings", href: "/settings" },
-  { icon: HeadphonesIcon, label: "Admin Panel", href: "/admin-panel" },
 ];
+
+const logoUrl =
+  "https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -29,116 +24,78 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { user, profile, organization, loading, signOut } = useAuth();
 
   useEffect(() => {
-    if (!loading && !user) {
-      setLocation("/login");
-    }
+    if (!loading && !user) setLocation("/login");
   }, [user, loading, setLocation]);
 
   if (loading) {
     return (
       <div className="dark min-h-screen bg-[#0D1117] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-[#00E5A0] border-t-transparent rounded-full animate-spin" />
-          <p className="text-[#8B949E] text-sm">Loading...</p>
-        </div>
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#00E5A0] border-t-transparent" />
       </div>
     );
   }
 
   if (!user) return null;
 
-  const isActive = (href: string) => {
-    if (href === "/dashboard") return location === "/dashboard" || location === "/";
-    return location.startsWith(href);
-  };
-
-  const initials = profile?.full_name
-    ?.split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2) || "U";
+  const isActive = (href: string) => (href === "/dashboard" ? location === "/dashboard" || location === "/" : location.startsWith(href));
+  const initials = profile?.full_name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2) || "U";
+  const trialDays = organization?.trial_ends_at ? Math.max(0, Math.ceil((new Date(organization.trial_ends_at).getTime() - Date.now()) / 86400000)) : null;
 
   return (
-    <div className="dark flex h-screen bg-[#0D1117] overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-60 flex-shrink-0 bg-[#161B22] border-r border-[#30363D] flex flex-col">
-        {/* Logo */}
-        <div className="px-4 py-5 border-b border-[#30363D]">
+    <div className="dark flex min-h-screen bg-[#0D1117] text-[#E6EDF3]">
+      <aside className="fixed left-0 top-0 flex h-screen w-[240px] flex-col border-r border-[#30363D] bg-[#161B22]">
+        <div className="border-b border-[#30363D] px-4 py-5">
           <div className="flex items-center gap-3">
-            <img
-              src="https://fsmzsskfsonlrwfcvkji.supabase.co/storage/v1/object/sign/assets/Logo_BindFlow_redondo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNTRhMGNiOC0zZTljLTQzODktYWQ1OS05YjZjNWY2NGQ2MDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvTG9nb19CaW5kRmxvd19yZWRvbmRvLnBuZyIsImlhdCI6MTc3NzgwMTg3NSwiZXhwIjozMzMxMzgwMTg3NX0.VC-tMEAn6bHmLlumrfwXz4tf6Y-6xZ0DX9sG06eyFlE"
-              alt="BindFlow"
-              className="w-8 h-8 rounded-lg object-cover flex-shrink-0"
-            />
-            <div className="overflow-hidden">
-              <div className="font-bold text-[#E6EDF3] text-sm truncate">BindFlow</div>
-              {organization && (
-                <div className="text-[#8B949E] text-xs truncate">{organization.name}</div>
-              )}
-            </div>
+            <img src={logoUrl} alt="BindFlow" className="h-10 w-10 rounded-full object-cover" />
+            <span className="text-sm font-semibold tracking-tight">BindFlow</span>
           </div>
         </div>
 
-        {/* Nav items */}
-        <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 space-y-1 px-3 py-4">
           {NAV_ITEMS.map(({ icon: Icon, label, href }) => (
             <Link key={href} href={href}>
               <button
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                  isActive(href)
-                    ? "bg-[#00E5A015] text-[#00E5A0] border-l-[3px] border-[#00E5A0] pl-[9px]"
-                    : "text-[#8B949E] hover:bg-[#21262D] hover:text-[#E6EDF3]"
-                }`}
+                className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-[#21262D] hover:text-[#E6EDF3] ${isActive(href) ? "border-l-[3px] border-[#00E5A0] bg-[#00E5A0]/10 pl-[11px] text-[#00E5A0]" : "text-[#8B949E]"}`}
                 data-testid={`nav-${label.toLowerCase()}`}
               >
-                <Icon className="h-4 w-4 flex-shrink-0" />
+                <Icon className="h-4 w-4" />
                 {label}
               </button>
             </Link>
           ))}
         </nav>
 
-        {/* User area */}
-        <div className="border-t border-[#30363D] p-3">
-          <div className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-[#21262D] cursor-pointer group">
-            <div className="w-8 h-8 rounded-full bg-[#00E5A015] border border-[#00E5A030] flex items-center justify-center flex-shrink-0">
+        <div className="border-t border-[#30363D] p-4 space-y-3">
+          <div className="rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-3">
+            <div className="text-xs text-[#8B949E]">Trial Ends in</div>
+            <div className="mt-1 text-sm font-semibold text-[#E6EDF3]">{trialDays === null ? "—" : `${trialDays} days`}</div>
+          </div>
+          <div className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-[#21262D] transition-colors">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#00E5A030] bg-[#00E5A015]">
               <span className="text-xs font-semibold text-[#00E5A0]">{initials}</span>
             </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-medium text-[#E6EDF3] truncate">{profile?.full_name || "Agent"}</div>
-              <div className="text-xs text-[#8B949E] truncate">{user?.email}</div>
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-sm font-medium text-[#E6EDF3]">{profile?.full_name || "Agent"}</div>
+              <div className="truncate text-xs text-[#8B949E]">{user.email}</div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => { signOut(); setLocation("/login"); }}
-              className="h-7 w-7 text-[#484F58] hover:text-[#F85149] opacity-0 group-hover:opacity-100 transition-opacity"
-              data-testid="button-signout"
-            >
-              <LogOut className="h-3.5 w-3.5" />
+            <Button variant="ghost" size="icon" onClick={() => { signOut(); setLocation("/login"); }} className="h-8 w-8 text-[#8B949E] hover:text-[#F85149]">
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
-
-          {/* Trial banner */}
-          {organization?.subscription_status === "trialing" && organization.trial_ends_at && (
-            <Link href="/settings/billing">
-              <div className="mt-2 bg-[#F0B42915] border border-[#F0B42930] rounded-lg px-3 py-2 cursor-pointer hover:border-[#F0B429] transition-colors">
-                <div className="text-xs font-medium text-[#F0B429]">Trial active</div>
-                <div className="text-xs text-[#8B949E] flex items-center gap-1 mt-0.5">
-                  Upgrade to keep access
-                  <ChevronRight className="h-3 w-3" />
-                </div>
-              </div>
-            </Link>
-          )}
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 overflow-y-auto bg-[#0D1117]">
-        {children}
-      </main>
+      <div className="ml-[240px] flex min-h-screen flex-1 flex-col bg-[#0D1117]">
+        <header className="flex h-16 items-center justify-between border-b border-[#30363D] px-6">
+          <h1 className="text-lg font-semibold text-[#E6EDF3]">
+            {location === "/dashboard" || location === "/" ? "Dashboard" : location.split("/")[1]?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) || "Dashboard"}
+          </h1>
+          <button className="flex h-10 w-10 items-center justify-center rounded-full border border-[#30363D] text-[#8B949E] transition-colors hover:border-[#00E5A0] hover:text-[#00E5A0]">
+            <Bell className="h-4 w-4" />
+          </button>
+        </header>
+        <main className="flex-1 overflow-y-auto">{children}</main>
+      </div>
     </div>
   );
 }
